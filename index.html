@@ -45,6 +45,7 @@ input,select{width:100%;padding:11px 12px;border:1px solid #CDE6FF;border-radius
 .nav button{font-size:12px;padding:8px 10px}
 #mainNav{flex-basis:100%}
 
+.gm{font-weight:800;color:#C2185B;background:#FFF0F5;border-bottom:3px solid #FF8FB5;padding:0 2px;border-radius:5px;white-space:nowrap}
 .seg{font:inherit;color:inherit;background:transparent;border:0;border-bottom:2px dotted #8CC8FF;padding:0 2px;margin:0 1px;cursor:pointer;border-radius:8px}
 .seg:hover{background:#EAF4FF}
 .seg.on{background:#5FA8E6;color:#fff;border-bottom-color:#5FA8E6}
@@ -54,7 +55,7 @@ input,select{width:100%;padding:11px 12px;border:1px solid #CDE6FF;border-radius
 .bubble .closeX{position:absolute;right:8px;top:6px;border:0;background:#EAF4FF;border-radius:999px;width:26px;height:26px;cursor:pointer;color:#2F7FC4;font-weight:900}
 </style></head><body>
 <header class="topbar"><div class="topin"><div class="logo"><div class="mark">말</div><div>말랑 한국어<small>MALANG KOREAN · 听读练习</small></div></div>
-<button class="btn soft" id="navToggle" onclick="toggleNav()" style="margin-left:auto">☰ 模块选择 ▾</button><nav class="nav" id="mainNav"><button class="on" data-tab="home">🏠 首页</button><button data-tab="sent">💬 句子</button><button data-tab="vocab">📚 词汇</button><button data-tab="grammar">📐 语法</button><button data-tab="bank">📝 题库</button><button data-tab="quiz">🎧 听力挑战</button><button data-tab="flash">🃏 闪卡</button></nav></div></header>
+<button class="btn soft" id="navToggle" onclick="toggleNav()" style="margin-left:auto">☰ 模块选择 ▾</button><nav class="nav" id="mainNav"><button class="on" data-tab="home">🏠 首页</button><button data-tab="sent">💬 句子</button><button data-tab="vocab">📚 词汇</button><button data-tab="grammar">📐 语法</button><button data-tab="bank">📝 题库</button><button data-tab="quiz">🎧 听力挑战</button><button data-tab="flash">🃏 闪卡</button><button data-tab="note">📕 复习本</button></nav></div></header>
 <main class="wrap">
 <section id="tab-home"><div class="hero"><h1>软软地学韩语，先把耳朵和眼睛练起来 🌸</h1><p>句子逐词讲解、词汇拓展栏、语法按课时练习、题库刷题——全部可范读。</p><div class="pills"><span class="pill">🔊 标准范读</span><span class="pill">🐢 慢速</span><span class="pill">👆 逐词/逐句点读</span><span class="pill">🎧 听写</span><span class="pill">📝 题库刷题</span></div><div class="controls"><button class="btn" onclick="go('sent')">练句子 →</button><button class="btn pink" onclick="go('bank')">去刷题</button></div><div class="trans"><b>今日一句：</b><span id="dailyKr"></span><br><span class="muted" id="dailyCn"></span> <button class="btn soft" style="padding:6px 10px" onclick="speak(daily.kr,1)">▶ 范读</button></div></div>
 <div class="panel" style="border-color:#BFE3FF;background:linear-gradient(180deg,#EFF8FF,#fff)"><h2>✨ 本次更新已生效</h2><p class="sub">顶部导航已新增 <b>📐 语法</b>：按《延世韩国语》第一册10个课时，只看要点、重点练针对训练（题目只用本课及已学词汇）。同时：<b>点句子/点词汇就会范读</b>，句子和词汇都可用顶部的「分册 → 课时」筛选。若还是旧页面，请关闭后重新打开或刷新。</p><div class="controls"><button class="btn" onclick="go('grammar')">去语法模块 →</button><button class="btn soft" onclick="go('sent')">按课时练句子</button><button class="btn pink" onclick="go('vocab')">按课时背词汇</button></div></div>
@@ -62,13 +63,14 @@ input,select{width:100%;padding:11px 12px;border:1px solid #CDE6FF;border-radius
 <div style="background:#fff;border:2px solid #BFE3FF;border-radius:22px;padding:18px;text-align:center"><div style="font-size:30px">💬</div><h3 style="color:#174A78;margin:6px 0">句子练习</h3><p class="muted">按课时练听读 · 点句子就范读</p><button class="btn" onclick="go('sent')">进入句子 →</button></div>
 <div style="background:#fff;border:2px solid #BFE3FF;border-radius:22px;padding:18px;text-align:center"><div style="font-size:30px">📚</div><h3 style="color:#174A78;margin:6px 0">词汇</h3><p class="muted">按课时背词 · 点词汇就范读</p><button class="btn" onclick="go('vocab')">进入词汇 →</button></div>
 <div style="background:#fff;border:2px solid #BFE3FF;border-radius:22px;padding:18px;text-align:center"><div style="font-size:30px">📐</div><h3 style="color:#174A78;margin:6px 0">语法</h3><p class="muted">按课时看要点 · 训练只用本课词</p><button class="btn" onclick="go('grammar')">进入语法 →</button></div></div>
-<div class="stats"><div class="stat"><b id="stSent">0</b><span>练习句子</span></div><div class="stat"><b id="stVocab">0</b><span>词汇词条</span></div><div class="stat"><b id="stBank">0</b><span>固定题库题数</span></div><div class="stat"><b id="stDone">0</b><span>已练句子</span></div><div class="stat"><b id="stScore">0</b><span>挑战得分</span></div></div>
+<div class="stats"><div class="stat"><b id="stSent">0</b><span>练习句子</span></div><div class="stat"><b id="stVocab">0</b><span>词汇词条</span></div><div class="stat"><b id="stBank">0</b><span>固定题库题数</span></div><div class="stat"><b id="stDone">0</b><span>已练句子</span></div><div class="stat"><b id="stScore">0</b><span>挑战得分</span></div><div class="stat"><b id="stDue">0</b><span>今日待复习词</span></div><div class="stat"><b id="stWrong">0</b><span>错题本</span></div></div>
+<div class="panel"><h2>📈 学习进度 · 《延世韩国语1》全40节</h2><p class="sub" id="progressMeta"></p><div class="progress"><div class="bar" id="progressBar"></div></div><div id="progressGrid"></div><p class="muted">用法：点任意小节可直接跳到那一节学习；在句子页选好课时+小节后点「📝 本节自测」，答对 60% 以上这一节就打 ✓。</p></div>
 <div class="panel" style="border-color:#FFD0E2;background:linear-gradient(180deg,#FFF5F9,#fff)"><h2>🔊 范读没声音？先在这里修复</h2><p class="sub">多数情况是设备<b>没有韩语语音包</b>，系统语音会不出声。现在已加<b>在线范读兜底</b>：联网即可播放，无需装语音包。注意：如果你是在文件预览的小窗口里打开，网络可能被限制——请用浏览器打开上方的<b>网站预览链接</b>再点范读。</p><div class="controls"><select id="ttsModeSel" style="max-width:300px" onchange="setTtsMode(this.value)"><option value="auto">自动：有韩语语音用系统，没有就在线</option><option value="online">强制在线范读（推荐，没声音时选这个）</option><option value="system">只用系统语音</option></select><button class="btn pink" onclick="testTts()">▶ 测试范读：안녕하세요</button><button class="btn soft" onclick="speak('오늘 날씨가 정말 좋네요. 같이 산책할까요?',1)">▶ 试听今日句</button></div><p class="muted" id="ttsInfo">点「测试范读」，这里会显示检测到没有韩语语音。</p></div>
 <div class="panel"><h2>推荐练法</h2><p class="sub"><b>听范读 → 逐词理解 → 关译文跟读 → 听写/刷题检验。</b>语法适合按课时推进：先点读本课例句，再做针对训练。</p><p class="muted">💡 范读用设备自带韩语语音（ko-KR），没声音请换 Chrome 或下载韩语语音包。</p></div></section>
 
 <section id="tab-sent" class="hide"><div class="panel"><h2>💬 句子练习 · 听与读</h2><p class="sub">已按《延世韩国语》第一册整理：每课分 <b>4 个小节</b>，先选课时、再选小节，按节找句子练。点句子/单词都会范读。</p>
 <div class="controls" style="justify-content:space-between;background:#EFF8FF;border:1px solid #CDE6FF;border-radius:16px;padding:10px 12px">
-  <b style="color:#174A78">📚 当前课时：<span id="sPickerCurrent">全部课时</span></b>
+  <b style="color:#174A78">📚 当前课时：<span id="sPickerCurrent">全部课时</span></b> <button class="btn" onclick="startSectionQuiz()">📝 本节自测</button>
   <button class="btn soft" id="sPickerToggle" onclick="toggleSPicker()">▾ 收起课时选择</button>
 </div>
 <div id="sPickerBody">
@@ -79,7 +81,7 @@ input,select{width:100%;padding:11px 12px;border:1px solid #CDE6FF;border-radius
   <div style="font-weight:900;color:#174A78;margin:8px 0 2px">③ 小节 · 每课4节（选完自动收起，点上方按钮可再展开）</div>
   <div class="chips" id="sSecChips"></div>
   <input id="sSearch" placeholder="🔍 在当前范围内搜句子" oninput="renderSList();renderSentence()">
-</div><div class="layout2"><div class="slist" id="slist"></div><div><div class="muted" id="sMeta"></div><div class="bigkr" id="sKr" title="点句子中的词查看解释"></div><div class="roman" id="sRoman"></div><div class="trans" id="sCn"></div><div class="controls"><button class="btn" onclick="speak(cur.kr,1)">🔊 标准范读</button><button class="btn soft" onclick="speak(cur.kr,0.6)">🐢 慢速</button><button class="btn pink" onclick="markDone()">✓ 标记已练</button><button class="btn soft" onclick="prevS()">← 上一句</button><button class="btn soft" onclick="nextS()">下一句 →</button><button class="btn soft" onclick="randomS()">🔀 随机</button></div><div class="controls"><label class="switch"><input type="checkbox" id="showCn" checked onchange="renderSentence()"> 显示译文</label><label class="switch"><input type="checkbox" id="showRoman" checked onchange="renderSentence()"> 罗马音</label><label class="switch"><input type="checkbox" id="dictMode" onchange="toggleDict()"> 🎧 听写模式</label></div><div id="dictBox" class="hide"><input id="dictInput" placeholder="听后把韩语句子打在这里（可不打标点）"><div class="controls"><button class="btn" onclick="checkDict()">检查听写</button><button class="btn soft" onclick="speak(cur.kr,0.75)">再听一遍</button></div><div id="dictResult"></div></div></div></div></div></section>
+</div><div id="dlgBox"></div><div id="secQuizBox"></div><div class="layout2"><div class="slist" id="slist"></div><div><div class="muted" id="sMeta"></div><div class="bigkr" id="sKr" title="点句子中的词查看解释"></div><div class="roman" id="sRoman"></div><div class="trans" id="sCn"></div><div class="controls"><button class="btn" onclick="speak(cur.kr,1)">🔊 标准范读</button><button class="btn soft" onclick="speak(cur.kr,0.6)">🐢 慢速</button><button class="btn pink" onclick="markDone()">✓ 标记已练</button><button class="btn soft" onclick="prevS()">← 上一句</button><button class="btn soft" onclick="nextS()">下一句 →</button><button class="btn soft" onclick="randomS()">🔀 随机</button></div><div class="controls"><label class="switch"><input type="checkbox" id="showCn" checked onchange="renderSentence()"> 显示译文</label><label class="switch"><input type="checkbox" id="showRoman" checked onchange="renderSentence()"> 罗马音</label><label class="switch"><input type="checkbox" id="dictMode" onchange="toggleDict()"> 🎧 听写模式</label></div><div id="dictBox" class="hide"><input id="dictInput" placeholder="听后把韩语句子打在这里（可不打标点）"><div class="controls"><button class="btn" onclick="checkDict()">检查听写</button><button class="btn soft" onclick="speak(cur.kr,0.75)">再听一遍</button></div><div id="dictResult"></div></div></div></div></div></section>
 
 <section id="tab-vocab" class="hide"><div class="panel"><h2>📚 词汇 · 《延世韩国语》第一册</h2><p class="sub">按<b>课时 → 小节</b>筛选（每课4节），点词卡 → 右侧拓展栏：来源、相关词、同义词、反义词、搭配、例句，全部可范读。</p><div class="filters" style="grid-template-columns:1.2fr 1fr 1fr 1fr"><input id="vSearch" placeholder="🔍 搜韩语/罗马音/中文" oninput="renderVocab()"><select id="vBook" onchange="onVBook()"><option value="">全部分册</option><option>延世韩国语1</option></select><select id="vLesson" onchange="onVLesson()"><option value="">全部课时</option></select><select id="vSec" onchange="renderVocab()"><option value="">全部小节</option></select></div><div class="muted" id="vCount"></div><div class="layoutV" style="margin-top:12px"><div class="vgrid" id="vGrid"></div><aside class="detail explain" id="vDetail"></aside></div></div></section>
 
@@ -90,7 +92,8 @@ input,select{width:100%;padding:11px 12px;border:1px solid #CDE6FF;border-radius
 
 <section id="tab-quiz" class="hide"><div class="panel"><h2>🎧 听力挑战</h2><p class="sub">只听声音选中文，句子题和词汇题随机混合。</p><div class="progress"><div class="bar" id="qBar"></div></div><p class="muted" id="qMeta"></p><div class="flash" onclick="replayQ()"><div><div style="font-size:44px">🔊</div><div class="muted">点这里播放/重播</div><div id="qReveal" class="muted"></div></div></div><div class="controls"><button class="btn" onclick="replayQ()">▶ 播放</button><button class="btn soft" onclick="quiz&&speak(quiz.a,0.6)">🐢 慢速</button><button class="btn soft" onclick="revealQ()">👀 看原文</button></div><div id="qOpts"></div><div id="qResult"></div><div class="controls"><button class="btn pink" onclick="newQuiz()">下一题 →</button></div></div></section>
 
-<section id="tab-flash" class="hide"><div class="panel"><h2>🃏 闪卡复习</h2><p class="sub">先出声读再翻面，比默看记得牢。</p><div class="flash" id="flashCard" onclick="flipCard()"></div><div class="controls" style="justify-content:center"><button class="btn soft" onclick="speak(flash[0],1)">🔊 范读</button><button class="btn" onclick="nextFlash()">✓ 记住了</button><button class="btn pink" onclick="nextFlash()">✗ 再练练</button></div><p class="muted" id="flashMeta" style="text-align:center"></p></div></section>
+<section id="tab-flash" class="hide"><div class="panel"><h2>🃏 闪卡复习 · 间隔记忆</h2><p class="sub">按遗忘曲线安排：到期该复习的词先出现，新词穿插进来。先出声读 → 点卡片翻面 → 按真实掌握程度选，系统决定下次何时再考你。</p><p class="muted" id="flashQueue"></p><div class="flash" id="flashCard" onclick="flipCard()"></div><div class="controls" style="justify-content:center"><button class="btn soft" onclick="speak(flash[0],1)">🔊 范读</button><button class="btn" onclick="gradeFlash(2)">😀 认识</button><button class="btn soft" onclick="gradeFlash(1)">🤔 模糊</button><button class="btn pink" onclick="gradeFlash(0)">😖 忘了</button></div><p class="muted" id="flashMeta" style="text-align:center"></p></div></section>
+<section id="tab-note" class="hide"><div class="panel"><h2>📕 复习本</h2><p class="sub">答错的题会自动收进错题本；在句子里点词、或在词汇详情里点「⭐ 生词本」，词就会收进生词本，常回来看看。</p><p class="muted" id="noteMeta"></p><h3 style="color:#174A78">⭐ 我的生词本</h3><div id="myWordList"></div><h3 style="color:#174A78;margin-top:18px">❌ 我的错题本 <button class="btn soft" style="padding:4px 10px" onclick="clearWrong()">清空错题</button></h3><div id="wrongList"></div></div></section>
 <footer>말랑 한국어 · 句子、词汇与语法持续扩充中<br>如有课本词表/真题文件，发给我可整表导入。</footer><div id="wordBubble" class="bubble hide"></div>
 </main>
 <script>
@@ -399,7 +402,7 @@ function yV(lessonId,str){
     if(old){old.lessons=old.lessons||[old.lessonId]; if(!old.lessons.includes(lessonId))old.lessons.push(lessonId); return;}
     let exKr,exCn;
     if(pos==='名词'){exKr=`${subj(kr)} 있어요.`; exCn=`有${cn}。`;}
-    else{exKr=`오늘은 ${kr}라는 표현을 배웠어요.`; exCn=`今天学了“${cn}”这个表达。`;}
+    else{exKr=`오늘은 ${kr}라는 표현을 들었어요.`; exCn=`今天听到了“${cn}”这个说法。`;}
     let v=[kr,ro,pos,cn,'延世韩国语1',`第${L.no}课`,L.title,'课本词汇',`《延世韩国语》第一册 第${L.no}课·${L.title}`,'','','',kr,exKr,exCn];
     v.lessonId=lessonId; v.lessons=[lessonId]; V.push(v);
   });
@@ -521,12 +524,12 @@ async function testTts(){
 if('speechSynthesis' in window){speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();}
 
 function toggleNav(){let n=$('mainNav'); if(n)n.classList.toggle('open'); let b=$('navToggle'); if(b&&n)b.textContent=n.classList.contains('open')?'☰ 模块选择 ▴':'☰ 模块选择 ▾';}
-function go(tab){let _n=$('mainNav'); if(_n)_n.classList.remove('open'); let _b=$('navToggle'); if(_b)_b.textContent='☰ 模块选择 ▾'; document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));['home','sent','vocab','grammar','bank','quiz','flash'].forEach(t=>$('tab-'+t).classList.toggle('hide',t!==tab));window.scrollTo({top:0,behavior:'smooth'});}
+function go(tab){let _n=$('mainNav'); if(_n)_n.classList.remove('open'); let _b=$('navToggle'); if(_b)_b.textContent='☰ 模块选择 ▾'; document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));['home','sent','vocab','grammar','bank','quiz','flash','note'].forEach(t=>$('tab-'+t).classList.toggle('hide',t!==tab));window.scrollTo({top:0,behavior:'smooth'});if(tab==='note')renderNote();}
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.tab));
 const daily=S[1];$('dailyKr').textContent=daily.kr;$('dailyCn').textContent=daily.cn;
 let done=new Set(JSON.parse(localStorage.getItem('doneSent')||'[]'));
 let quizScore=+localStorage.getItem('quizScore')||0,quizTotal=+localStorage.getItem('quizTotal')||0;
-function stats(){$('stSent').textContent=S.length;$('stVocab').textContent=V.length;$('stBank').textContent=BANK.length;$('stDone').textContent=done.size;$('stScore').textContent=quizTotal?quizScore+' / '+quizTotal:'0';}
+function stats(){$('stSent').textContent=S.length;$('stVocab').textContent=V.length;$('stBank').textContent=BANK.length;$('stDone').textContent=done.size;$('stScore').textContent=quizTotal?quizScore+' / '+quizTotal:'0';if($('stDue'))$('stDue').textContent=dueWordCount();if($('stWrong'))$('stWrong').textContent=wrongBook.length;}
 // ---- 按课时归类：旧词汇/旧句子自动归入对应课时 ----
 function lessonOfVocab(v){
   if(v.lessonId)return v.lessonId;
@@ -579,6 +582,83 @@ Object.keys(SEC_RANGES).forEach(lid=>{
 });
 V.forEach(v=>{if(!v.sec)v.sec=1; if(!v.secMap)v.secMap={[v.lessonId]:v.sec};});
 (function(){const bd=V.find(v=>v[0]==='보다'); if(bd&&bd.secMap)bd.secMap['Y09']=3;})(); // 보다 在第9课第3节作比较助词
+
+// ---- 词表补全与归属修正（对照《延世韩国语1》逐节词表核查） ----
+(function(){
+  function fixWord(kr,lid,sec,also){
+    const v=V.find(x=>x[0]===kr); if(!v)return;
+    v.lessonId=lid; v.lessons=also||[lid]; v.sec=sec; v.secMap={}; (also||[lid]).forEach(x=>{v.secMap[x]=sec;});
+    const L=LESSONS.find(x=>x.id===lid); if(L){v[5]='第'+L.no+'课'; v[6]=L.title; v[8]='《延世韩国语》第一册 第'+L.no+'课·'+L.title;}
+  }
+  fixWord('부산','Y07',2);                    // 原词表在第7课第2节（地名）
+  fixWord('드리다','Y04',4,['Y04','Y06']);     // 第4课第4节首次出现，第6课再现
+  fixWord('덥다','Y03',3,['Y03','Y09']);       // 第3课第3节首次出现，第9课再现
+  fixWord('따뜻하다','Y03',3,['Y03','Y09']);
+  fixWord('춥다','Y03',3,['Y03','Y09']);
+  const _di=V.findIndex(x=>x[0]==='대구'); if(_di>=0)V.splice(_di,1); // 原词表无此词，删除
+  // 补收原词表有、本站漏收的词：[课,节,韩,罗马音,词性,中文]
+  const ADD=[
+['Y01',1,'리에','rie','名词','理惠（人名）'],['Y01',1,'웨이','wei','名词','王伟（人名）'],
+['Y01',2,'몽골','monggol','名词','蒙古'],['Y01',2,'인도','indo','名词','印度'],['Y01',2,'태국','taeguk','名词','泰国'],['Y01',2,'호주','hoju','名词','澳大利亚'],
+['Y01',3,'비서','biseo','名词','秘书'],
+['Y01',4,'하다','hada','动词','做'],['Y01',4,'사다','sada','动词','买'],['Y01',4,'사랑하다','saranghada','动词','爱'],['Y01',4,'가다','gada','动词','去'],['Y01',4,'오다','oda','动词','来'],['Y01',4,'만나다','mannada','动词','见面'],['Y01',4,'자다','jada','动词','睡觉'],['Y01',4,'먹다','meokda','动词','吃'],['Y01',4,'입다','ipda','动词','穿'],['Y01',4,'듣다','deutda','动词','听'],['Y01',4,'읽다','ikda','动词','读'],
+['Y02',1,'읽기책','ikgichaek','名词','读物'],['Y02',1,'저건','jeogeon','代词','那个（东西）'],['Y02',1,'점원','jeomwon','名词','店员'],
+['Y02',2,'옷걸이','otgeori','名词','衣架'],['Y02',2,'날씨','nalssi','名词','天气'],
+['Y02',3,'학생회관','haksaenghoegwan','名词','学生会馆'],
+['Y03',1,'숙제하다','sukjehada','动词','做作业'],['Y03',1,'노래하다','noraehada','动词','唱歌'],['Y03',1,'이야기하다','iyagihada','动词','讲故事、聊天'],['Y03',1,'운동하다','undonghada','动词','做运动'],['Y03',1,'산책하다','sanchaekhada','动词','散步'],
+['Y03',2,'외할아버지','oeharabeoji','名词','外公'],['Y03',2,'외할머니','oehalmeoni','名词','外婆'],['Y03',2,'남','nam','名词','男'],['Y03',2,'여','yeo','名词','女'],['Y03',2,'나','na','代词','我'],['Y03',2,'형제','hyeongje','名词','兄弟'],['Y03',2,'부모','bumo','名词','父母'],['Y03',2,'잡수시다','japsusida','动词','吃（敬语）'],['Y03',2,'말씀하시다','malsseumhasida','动词','说话（敬语）'],['Y03',2,'께서','kkeseo','助词','主格助词的敬语形'],
+['Y03',3,'시원하다','siwonhada','形容词','凉快'],
+['Y03',4,'프로그래머','peurogeuraemeo','名词','程序员'],
+['Y04',1,'그럽시다','geureopsida','表达','就那样做吧'],
+['Y04',2,'중국 음식','jungguk eumsik','名词','中餐'],
+['Y04',4,'이','i','数词','二'],['Y04',4,'삼','sam','数词','三'],['Y04',4,'사','sa','数词','四'],['Y04',4,'오','o','数词','五'],['Y04',4,'육','yuk','数词','六'],['Y04',4,'칠','chil','数词','七'],['Y04',4,'팔','pal','数词','八'],['Y04',4,'구','gu','数词','九'],['Y04',4,'십','sip','数词','十'],['Y04',4,'뭘','mwol','代词','什么（口语）'],
+['Y05',1,'이십','isip','数词','二十'],['Y05',1,'삼십','samsip','数词','三十'],['Y05',1,'사십','sasip','数词','四十'],['Y05',1,'오십','osip','数词','五十'],['Y05',1,'육십','yuksip','数词','六十'],['Y05',1,'칠십','chilsip','数词','七十'],['Y05',1,'팔십','palsip','数词','八十'],['Y05',1,'구십','gusip','数词','九十'],
+['Y05',2,'월','wol','名词','月'],['Y05',2,'글쎄요','geulsseyo','感叹词','嗯…（表示不确定）'],
+['Y05',3,'이를 닦다','ireul dakda','动词','刷牙'],
+['Y05',4,'그제','geuje','名词','前天'],['Y05',4,'어저께','eojeokke','名词','昨天'],['Y05',4,'지난 주','jinan ju','名词','上周'],['Y05',4,'이번 주','ibeon ju','名词','这周'],['Y05',4,'다음 주','daeum ju','名词','下周'],['Y05',4,'지난 달','jinan dal','名词','上个月'],['Y05',4,'이번 달','ibeon dal','名词','这个月'],['Y05',4,'다음 달','daeum dal','名词','下个月'],
+['Y06',1,'꽃 가게','kkot gage','名词','花店'],['Y06',1,'빵','ppang','名词','面包'],['Y06',1,'빵 가게','ppang gage','名词','面包店'],['Y06',1,'과일 가게','gwail gage','名词','水果店'],
+['Y06',2,'약하다','yakada','形容词','弱、瘦弱'],
+['Y06',3,'대','dae','量词','辆（数车）'],
+['Y06',4,'께','kke','助词','给、向（에게的敬语）'],['Y06',4,'선물을 주다','seonmureul juda','动词','送礼物'],['Y06',4,'프랑스','peurangseu','名词','法国'],
+['Y07',2,'마을버스','maeulbeoseu','名词','村庄巴士'],['Y07',2,'일반택시','ilbantaeksi','名词','普通出租车'],['Y07',2,'모범택시','mobeomtaeksi','名词','模范出租车'],['Y07',2,'동대문 운동장','dongdaemun undongjang','名词','东大门运动场'],['Y07',2,'베트남','beteunam','名词','越南'],
+['Y07',3,'고속버스 터미널','gosokbeoseu teomineol','名词','高速巴士客运站'],
+['Y08',1,'의','ui','助词','的'],['Y08',1,'범죄','beomjoe','名词','犯罪'],['Y08',1,'화재','hwajae','名词','火灾'],['Y08',1,'신고','singo','名词','申报、报警'],
+['Y08',2,'전화번호를 누르다','jeonhwabeonhoreul nureuda','动词','按电话号码'],['Y08',2,'전화벨이 울리다','jeonhwaberi ullida','动词','电话铃响'],['Y08',2,'신호가 가다','sinhoga gada','动词','有信号、打通'],['Y08',2,'휴대전화를 켜다','hyudaejeonhwareul kyeoda','动词','开手机'],['Y08',2,'휴대전화를 끄다','hyudaejeonhwareul kkeuda','动词','关手机'],['Y08',2,'핸드폰을 켜다','haendeuponeul kyeoda','动词','开手机'],['Y08',2,'핸드폰을 끄다','haendeuponeul kkeuda','动词','关手机'],['Y08',2,'문자메시지를 보내다','munjamesijireul bonaeda','动词','发短信'],['Y08',2,'문자메시지를 확인하다','munjamesijireul hwaginhada','动词','查看短信'],['Y08',2,'음성메시지를 남기다','eumseongmesijireul namgida','动词','留语音留言'],['Y08',2,'음성메시지를 확인하다','eumseongmesijireul hwaginhada','动词','听语音留言'],
+['Y08',3,'약속 장소','yaksok jangso','名词','约定地点'],['Y08',3,'약속 시간','yaksok sigan','名词','约定时间'],['Y08',3,'약속을 어기다','yaksogeul eogida','动词','毁约'],['Y08',3,'약속을 지키다','yaksogeul jikida','动词','守约'],['Y08',3,'약속 시간을 바꾸다','yaksok siganeul bakkuda','动词','更改约定时间'],
+['Y09',2,'구름이 끼다','gureumi kkida','动词','多云'],['Y09',2,'비가 오다','biga oda','动词','下雨'],
+['Y10',4,'탁구를 치다','takgureul chida','动词','打乒乓球']
+  ];
+  ADD.forEach(function(a){
+    const lid=a[0], sec=a[1], kr=a[2];
+    if(V.some(x=>x[0]===kr))return;
+    const L=LESSONS.find(x=>x.id===lid); if(!L)return;
+    const pos=a[4], cn=a[5];
+    let exKr, exCn;
+    if(pos==='名词'||pos==='代词'||pos==='数词'||pos==='量词'){exKr=subj(kr)+' 있어요.'; exCn='有'+cn+'。';}
+    else{exKr='오늘은 '+kr+'라는 표현을 들었어요.'; exCn='今天听到了“'+cn+'”这个说法。';}
+    const v=[kr,a[3],pos,cn,'延世韩国语1','第'+L.no+'课',L.title,'课本词汇','《延世韩国语》第一册 第'+L.no+'课·'+L.title+' 第'+sec+'节','','','',kr,exKr,exCn];
+    v.lessonId=lid; v.lessons=[lid]; v.sec=sec; v.secMap={}; v.secMap[lid]=sec;
+    V.push(v);
+  });
+})();
+// ---- 句子自动归位：一句里最晚学到的词在哪课哪节，句子就放到哪（不超纲） ----
+function placeSentences(){
+  const GLUE=new Set(['수업','선생님','친구','학교','책','한국어','사람','오늘','어제','내일','듣다','무엇','배우다','이']);
+  S.forEach(s=>{
+    const curIdx=LESSONS.findIndex(L=>L.id===s.lessonId); if(curIdx<0)return;
+    let target=curIdx, moveSec=1, sameSec=0;
+    (s.kr||'').replace(/[,.?!"]/g,'').split(/\s+/).filter(Boolean).forEach(tok=>{
+      const h=_hitWord(tok); if(!h||GLUE.has(h[0]))return;
+      const li=_earliestIdx(h); if(li<0)return;
+      if(li>target){target=li; moveSec=secInLesson(h,LESSONS[li].id);}
+      else if(li===target&&li>curIdx){moveSec=Math.max(moveSec,secInLesson(h,LESSONS[li].id));}
+      else if(li===curIdx){sameSec=Math.max(sameSec,secInLesson(h,LESSONS[li].id));}
+    });
+    if(target>curIdx){s.lessonId=LESSONS[target].id; s.sec=moveSec; s.cat=LESSONS[target].book+'第'+LESSONS[target].no+'课';}
+    else{s.sec=Math.max(s.sec||1, sameSec||1);}
+  });
+}
+
 // 核心句子逐句归节（键=课时|标题），其余按句中本课最新词自动归节
 const SENT_SEC={'Y01|问候':1,'Y01|来自中国':2,'Y01|是学生':3,'Y01|问名字':1,'Y01|初次见面':4,'Y01|哪国人':2,
 'Y02|是课本吗':1,'Y02|桌上有包':1,'Y02|也有词典':2,'Y02|银行在哪':3,'Y02|房间里':2,'Y02|这是什么':1,
@@ -599,13 +679,13 @@ S.forEach(s=>{
 function ensureLessonSentences(target){
   target=target||22;
   const frames=[
-    {n:false,kr:v=>`오늘 수업에서 ${v[0]}라는 표현을 배웠어요.`,cn:v=>`今天课上学了“${v[3]}”这个表达。`},
+    {n:false,kr:v=>`오늘 ${v[0]}라는 표현을 들었어요.`,cn:v=>`今天听到了“${v[3]}”这个说法。`},
     {n:true, kr:v=>`${subj(v[0])} 정말 중요해요.`,cn:v=>`${v[3]}真的很重要。`},
     {n:false,kr:v=>`선생님이 ${v[0]}의 뜻을 쉽게 설명해 주셨어요.`,cn:v=>`老师把“${v[3]}”的意思讲得很简单。`},
     {n:true, kr:v=>`저는 ${_objP(v[0])} 더 알고 싶어요.`,cn:v=>`我想多了解${v[3]}。`},
     {n:false,kr:v=>`${v[0]}라는 표현으로 짧은 문장을 만들어 봤어요.`,cn:v=>`我试着用“${v[3]}”造了一个短句。`},
     {n:true, kr:v=>`친구와 ${v[0]}에 대해 이야기했어요.`,cn:v=>`我和朋友聊了${v[3]}。`},
-    {n:false,kr:v=>`어제 수업에서 ${v[0]}라는 표현을 복습했어요.`,cn:v=>`昨天课上复习了“${v[3]}”这个表达。`},
+    {n:false,kr:v=>`어제 ${v[0]}라는 표현을 복습했어요.`,cn:v=>`昨天复习了“${v[3]}”这个表达。`},
     {n:true, kr:v=>`저는 ${v[0]} 덕분에 기분이 좋아요.`,cn:v=>`多亏了${v[3]}，我心情很好。`}
   ];
   LESSONS.forEach(L=>{
@@ -631,7 +711,7 @@ ensureLessonSentences(22);
 // 每节至少5句：某节句子不够时，用这一节的词现场补句（用词不出本节及已学范围）
 function ensureSectionSentences(minPer){
   const frames=[
-    {n:false,kr:v=>`오늘 수업에서 ${v[0]}라는 표현을 배웠어요.`,cn:v=>`今天课上学了“${v[3]}”这个表达。`},
+    {n:false,kr:v=>`오늘 ${v[0]}라는 표현을 들었어요.`,cn:v=>`今天听到了“${v[3]}”这个说法。`},
     {n:true, kr:v=>`${subj(v[0])} 정말 중요해요.`,cn:v=>`${v[3]}真的很重要。`},
     {n:false,kr:v=>`선생님이 ${v[0]}의 뜻을 쉽게 설명해 주셨어요.`,cn:v=>`老师把“${v[3]}”的意思讲得很简单。`},
     {n:true, kr:v=>`저는 ${_objP(v[0])} 더 알고 싶어요.`,cn:v=>`我想多了解${v[3]}。`},
@@ -653,6 +733,68 @@ function ensureSectionSentences(minPer){
   });});
 }
 ensureSectionSentences(5);
+// 归位后重新补齐：被移走的句子腾出的位置，按课22句/每节5句再补
+placeSentences();
+ensureLessonSentences(22);
+placeSentences();
+ensureSectionSentences(5);
+
+// ================= 情景句补全：每节5句完整自然句，并清掉模板生成句 =================
+const AUTH={
+"Y01-1":[["안녕하십니까? 저는 왕웨이입니다.","您好，我是王伟。"],["선생님, 안녕하십니까?","老师，您好。"],["제 이름은 리에입니다.","我的名字是理惠。"],["저는 웨이의 친구입니다.","我是王伟的朋友。"],["성이 무엇입니까?","您姓什么？"]],
+"Y01-2":[["저는 미국에서 왔어요.","我从美国来。"],["리에는 일본 사람입니다.","理惠是日本人。"],["선생님은 한국 사람입니까?","老师是韩国人吗？"],["아니요, 독일 사람입니다.","不，是德国人。"],["웨이는 캐나다에서 왔어요.","王伟从加拿大来。"]],
+"Y01-3":[["리에는 간호사입니다. 의사가 아닙니다.","理惠是护士，不是医生。"],["웨이 씨는 기자입니까? 네, 기자입니다.","王伟是记者吗？是的，是记者。"],["직업이 무엇입니까? 저는 은행원입니다.","你是做什么工作的？我是银行职员。"],["그런데 리에도 대학생입니까?","不过，理惠也是大学生吗？"],["저는 대학생입니다. 회사원이 아닙니다.","我是大学生，不是公司职员。"]],
+"Y01-4":[["오늘 학교에 가요.","今天去学校。"],["친구가 학교에 와요.","朋友来学校。"],["저는 친구와 인사해요.","我和朋友打招呼。"],["선생님을 만나요.","去见老师。"],["리에가 먼저 인사해요.","理惠先打招呼。"]],
+"Y02-1":[["책상 위에 교과서가 있어요. 사전도 있어요.","桌子上有课本，也有词典。"],["이 지갑에 돈이 있어요. 카드도 있어요.","这个钱包里有钱，也有卡。"],["그것은 무엇입니까? 제 가방입니다.","那是什么？是我的包。"],["여기에 연필과 지우개가 있어요.","这里有铅笔和橡皮。"],["저것은 제 모자입니다.","那是我的帽子。"]],
+"Y02-2":[["교실에 의자가 많아요.","教室里椅子很多。"],["칠판은 크고 창문은 작아요.","黑板大，窗户小。"],["오늘 날씨가 좋아요.","今天天气好。"],["이 그림이 좋아요.","这幅画很好。"],["교실에 사람이 없어요.","教室里没有人。"]],
+"Y02-3":[["은행은 도서관 옆에 있어요.","银行在图书馆旁边。"],["우체국은 학교 앞에 있어요.","邮局在学校前面。"],["가방이 책상 밑에 있어요.","包在桌子下面。"],["식당은 학생회관 뒤에 있어요.","食堂在学生会馆后面。"],["책이 가방 안에 있어요.","书在包里面。"]],
+"Y02-4":[["집이 역 근처에 있어요.","我家在车站附近。"],["집 근처에 시장이 있어요.","家附近有市场。"],["공원은 백화점 옆에 있어요.","公园在百货商店旁边。"],["병원은 회사 뒤에 있어요.","医院在公司后面。"],["지하철역은 극장 앞에 있어요.","地铁站在剧场前面。"]],
+"Y03-1":[["웨이는 매일 숙제를 해요.","王伟每天做作业。"],["리에는 자주 노래를 들어요.","理惠经常听歌。"],["저는 가끔 가족과 산책해요.","我偶尔和家人散步。"],["친구와 이야기해요.","和朋友聊天。"],["오늘은 집에서 공부해요.","今天在家学习。"]],
+"Y03-2":[["부모님은 고향 집에 계세요.","父母在老家的房子里。"],["가족이 모두 다섯 명이에요.","家里一共五口人。"],["형은 대학생이고 여동생은 학생이에요.","哥哥是大学生，妹妹是学生。"],["어머니는 선생님입니다.","母亲是老师。"],["누나는 대학교에서 공부해요.","姐姐在大学学习。"]],
+"Y03-3":[["산의 공기가 정말 좋아요.","山里的空气真好。"],["여기는 조용하고 깨끗해요.","这里安静又干净。"],["방은 넓지만 조금 더러워요.","房间宽敞，但有点脏。"],["오늘은 따뜻하고 좋아요.","今天暖和，很舒服。"],["날씨가 춥지만 공기가 좋아요.","天气冷，但空气好。"]],
+"Y03-4":[["리에는 대학교에서 법학을 공부해요.","理惠在大学学法律。"],["웨이는 컴퓨터공학을 전공해요.","王伟的专业是计算机工学。"],["친구는 의학을 공부해요.","朋友学医学。"],["저는 역사학을 좋아해요.","我喜欢历史学。"],["누나는 영문학을 공부해요.","姐姐学英国文学。"]],
+"Y04-1":[["오늘은 혼자 한식집에 가요.","今天独自去韩餐馆。"],["친구하고 같이 중국집에 갈까요?","和朋友一起去中餐馆吗？"],["오늘 밤에 친구와 나가요.","今晚和朋友出去。"],["저는 먼저 들어와요.","我先进去。"],["같이 올라갈까요?","一起上去吗？"]],
+"Y04-2":[["이 한식은 맵지만 맛있어요.","这道韩餐辣，但是好吃。"],["무슨 음식을 좋아해요? 저는 자장면을 좋아해요.","你喜欢什么食物？我喜欢炸酱面。"],["초밥은 조금 싱거워요.","寿司有点淡。"],["양식이 맛있어요.","西餐好吃。"],["이 음식은 달고 맛있어요.","这个菜又甜又好吃。"]],
+"Y04-3":[["저는 김치찌개를 먹고 싶어요.","我想吃泡菜汤。"],["오늘은 삼계탕을 먹을까요?","今天吃参鸡汤好吗？"],["떡볶이는 맵고 맛있어요.","炒年糕又辣又好吃。"],["친구는 라면을 좋아해요.","朋友喜欢方便面。"],["된장찌개와 김밥을 주세요.","请给我大酱汤和紫菜包饭。"]],
+"Y04-4":[["물 한 병 주세요.","请给我一瓶水。"],["커피 두 잔 주세요.","请给我两杯咖啡。"],["뭘 드릴까요?","您想要点什么？"],["사과와 초콜릿을 주세요.","请给我苹果和巧克力。"],["소주 한 병과 사탕을 주세요.","请给我一瓶烧酒和糖。"]],
+"Y05-1":[["지금은 오후 세 시예요.","现在是下午三点。"],["제 시계는 일곱 시예요.","我的表是七点。"],["오전 아홉 시에 학교에 가요.","上午九点去学校。"],["천 원만 있어요.","只有一千韩元。"],["지금은 열 시 반이에요.","现在是十点半。"]],
+"Y05-2":[["내일은 일요일이에요. 쉬고 싶어요.","明天是星期日，想休息。"],["오늘은 무슨 요일이에요? 목요일이에요.","今天星期几？星期四。"],["내일은 며칠이에요? 십일이에요.","明天几号？十一号。"],["토요일에 쉬어요.","星期六休息。"],["월요일에 학교에 가요.","星期一去学校。"]],
+"Y05-3":[["저는 아침 여섯 시에 일어나요.","我早上六点起床。"],["일어나서 세수를 해요.","起床后洗脸。"],["점심을 먹고 친구를 만나요.","吃完午饭见朋友。"],["저녁에 이를 닦고 자요.","晚上刷牙睡觉。"],["아침에 지하철을 타요.","早上坐地铁。"]],
+"Y05-4":[["어제 영화를 봤어요.","昨天看了电影。"],["작년에는 고향에 갔어요.","去年回了家乡。"],["이번 주에 많이 잤어요.","这周睡得很多。"],["내년에는 한국에 가고 싶어요.","明年想去韩国。"],["지난 주에 산에 갔어요.","上周去了山里。"]],
+"Y06-1":[["장미꽃을 사러 꽃집에 가요.","去花店买玫瑰花。"],["어머니에게 케이크를 사요.","给妈妈买蛋糕。"],["이 빵집의 빵이 맛있어요.","这家面包店的面包很好吃。"],["편의점에서 과일을 사요.","在便利店买水果。"],["친구의 선물을 사요.","买送给朋友的礼物。"]],
+"Y06-2":[["이 옷은 싸지만 저 옷은 비싸요.","这件衣服便宜，那件贵。"],["빨간색 모자가 좋아요.","红色的帽子好。"],["이 책은 두껍고 무거워요.","这本书又厚又重。"],["학교는 집에서 멀어요.","学校离家远。"],["파란색 옷이 가벼워요.","蓝色的衣服轻。"]],
+"Y06-3":[["이 신발은 얼마예요?","这双鞋多少钱？"],["식빵 세 개 주세요.","请给我三片面包。"],["표 두 장 주세요.","请给我两张票。"],["다른 색을 보여 주세요.","请给我看别的颜色。"],["콜라 한 병 주세요.","请给我一瓶可乐。"]],
+"Y06-4":[["부모님에게 꽃다발을 드려요.","给父母送花束。"],["좀 깎아 주세요.","请便宜一点。"],["친구에게 인형을 선물해요.","送朋友玩偶。"],["이 화장품은 비싸요.","这个化妆品贵。"],["넥타이를 보여 주세요.","请给我看看领带。"]],
+"Y07-1":[["실례합니다. 길을 묻고 싶어요.","劳驾，我想问一下路。"],["출구는 이쪽이에요.","出口在这边。"],["아파트는 왼쪽에 있어요.","公寓在左边。"],["역은 저쪽에 있어요.","车站在那边。"],["이쪽으로 가세요. 오른쪽에 있어요.","请走这边，在右边。"]],
+"Y07-2":[["버스로 학교에 가요.","坐公交去学校。"],["집에서 회사까지 얼마나 걸려요?","从家到公司要多久？"],["택시로 십 분 걸려요.","坐出租车要十分钟。"],["저는 자전거를 타요.","我骑自行车。"],["비행기로 부산에 가요.","坐飞机去釜山。"]],
+"Y07-3":[["버스를 타고 학교 앞에서 내려요.","坐公交在学校前面下车。"],["지하철을 갈아타요.","换乘地铁。"],["공항에 도착했어요.","已经到机场了。"],["사람이 많아요. 앉으세요.","人很多，请坐。"],["조심하세요. 차가 와요.","小心，车来了。"]],
+"Y07-4":[["기사님, 여기서 세워 주세요.","师傅，请停在这里。"],["저는 걸어서 집에 가요.","我走着回家。"],["가게에 들어가요.","进商店去。"],["저기에서 세워 주세요.","请停在那儿。"],["오늘은 많이 걸었어요.","今天走了很多路。"]],
+"Y08-1":[["휴대전화 번호가 뭐예요?","手机号码是多少？"],["이따가 전화할게요.","过一会儿我打电话。"],["국제전화를 걸어요.","打国际电话。"],["시외전화는 비싸요.","长途电话贵。"],["휴대전화가 없어요.","没有手机。"]],
+"Y08-2":[["여보세요? 리에 씨 있어요?","喂？理惠在吗？"],["저는 이따가 전화를 걸게요.","我过一会儿打电话。"],["음성메시지를 확인해요.","查看语音留言。"],["전화벨이 울려요.","电话铃在响。"],["잘못 걸었어요.","打错了。"]],
+"Y08-3":[["약속 시간에 늦으면 전화할게요.","如果赶不上约定时间，我会打电话。"],["약속을 지키세요.","请遵守约定。"],["내일 세 시에 만나요. 약속해요.","明天三点见，约好了。"],["저는 약속이 있어요.","我有约会。"],["늦어서 미안해요.","对不起，我晚了。"]],
+"Y08-4":[["아직 통화 중이에요.","还在通话中。"],["아마 집에 있을 거예요.","大概会在家。"],["전화를 끊지 마세요.","请不要挂电话。"],["아직 안 왔어요.","还没来。"],["이따가 통화해요.","过一会儿通话。"]],
+"Y09-1":[["저는 봄을 좋아해요.","我喜欢春天。"],["여름에는 더워요.","夏天很热。"],["가을에는 산에 가요.","秋天去山里。"],["스키장에 가고 싶어요.","想去滑雪场。"],["좋아하는 계절은 겨울이에요.","最喜欢的季节是冬天。"]],
+"Y09-2":[["오늘은 흐리고 구름이 많아요.","今天阴天，云很多。"],["비가 많이 와요.","雨下得很大。"],["하늘이 맑아요.","天空晴朗。"],["내일은 맑을 것 같아요.","明天好像会放晴。"],["구름이 끼고 흐려요.","多云，天气阴。"]],
+"Y09-3":[["오늘은 어제보다 춥지 않아요.","今天没有昨天那么冷。"],["봄에는 따뜻하고 선선해요.","春天温暖又凉爽。"],["오늘은 삼십 도예요. 너무 더워요.","今天30度，太热了。"],["아침에는 쌀쌀해요.","早上凉飕飕的。"],["겨울은 여름보다 추워요.","冬天比夏天冷。"]],
+"Y09-4":[["사람들이 등산을 하고 있어요.","人们正在登山。"],["꽃이 많고 예뻐요.","花很多，很漂亮。"],["바람이 불고 눈이 와요.","刮着风，下着雪。"],["저는 수영을 좋아해요.","我喜欢游泳。"],["산에서 등산을 해요.","在山里登山。"]],
+"Y10-1":[["휴일에 사진을 찍을 거예요.","节假日打算拍照。"],["저는 방학이 좋아요.","我喜欢放假。"],["수업이 끝났어요.","课结束了。"],["주말에 설악산에 가요.","周末去雪岳山。"],["사진을 많이 찍었어요.","拍了很多照片。"]],
+"Y10-2":[["시간이 있을 때 친구를 만나요.","有时间的时候见朋友。"],["저는 주로 집에서 쉬어요.","我大多在家休息。"],["여행이 제일 좋아요.","最喜欢旅行了。"],["쉴 때 책을 읽어요.","休息的时候看书。"],["방학 때 고향에 가요.","放假的时候回家乡。"]],
+"Y10-3":[["인터넷으로 표를 예매해요.","在网上订票。"],["이 영화는 슬퍼요.","这部电影很悲伤。"],["한국어는 어렵지 않아요.","韩语不难。"],["인터넷이 편해요.","网络很方便。"],["극장에 자주 못 가요.","不能经常去电影院。"]],
+"Y10-4":[["산책을 하고 집에서 쉬었어요.","散了散步，然后在家休息了。"],["저는 매일 탁구를 쳐요.","我每天打乒乓球。"],["오늘은 별로 덥지 않아요.","今天不太热。"],["저는 주말마다 영화를 봐요.","我每个周末都看电影。"],["한국어를 더 배우고 싶어요.","我想多学一点韩语。"]]
+};
+Object.keys(AUTH).forEach(k=>{
+  const parts=k.split('-'), lid=parts[0], sec=+parts[1];
+  const L=LESSONS.find(x=>x.id===lid); if(!L)return;
+  AUTH[k].forEach(pair=>{
+    if(S.some(x=>x.kr===pair[0]))return;
+    let ns={cat:L.book+'第'+L.no+'课',title:'情景句',kr:pair[0],ro:'',cn:pair[1],words:autoWords(pair[0])};
+    ns.lessonId=lid; ns.sec=sec; S.push(ns);
+  });
+});
+// 清掉模板生成句和词条例句句（短句/组词不再混进句子库）
+for(let i=S.length-1;i>=0;i--){if(/^(例句 ·|本课练习句 ·)/.test(S[i].title))S.splice(i,1);}
+placeSentences();
+
 
 function lessonById(id){return LESSONS.find(L=>L.id===id);}
 function vocabOfLesson(id){return V.filter(v=>v.lessonId===id||(v.lessons&&v.lessons.includes(id)));}
@@ -673,7 +815,7 @@ function onSBook(){}
 function onSLesson(){}
 function updateSPickerLabel(){let el=$('sPickerCurrent'); if(!el)return; let L=lessonById(sLessonId); el.textContent=L?`${L.book} 第${L.no}课 · ${L.title}（${sentsOfLesson(L.id).length}句）`+(sSec?` · 第${sSec}节 ${L.sections[sSec-1].title}（${sentsOfLessonSec(L.id,sSec).length}句）`:''):(sBookFilter?sBookFilter+' · 全部课时':'全部课时');}
 function toggleSPicker(forceClose){let b=$('sPickerBody'),btn=$('sPickerToggle'); if(!b)return; let hide=forceClose===true?true:!b.classList.contains('hide'); b.classList.toggle('hide',hide); if(btn)btn.textContent=hide?'▸ 展开课时选择':'▾ 收起课时选择';}
-function refreshSFirst(){let f=filteredS(); if(f.length){cur=f[0];curWord=-1;} renderSList(); renderSentence();}
+function refreshSFirst(){let f=filteredS(); if(f.length){cur=f[0];curWord=-1;} renderSList(); renderSentence(); renderDialogues(); const _q=$('secQuizBox'); if(_q)_q.innerHTML='';}
 function filteredS(){let list=S.slice(); if(sLessonId){const _ss=sentsOfLesson(sLessonId); list=list.filter(s=>_ss.includes(s)); if(sSec)list=list.filter(s=>(s.sec||1)===sSec);} else if(sBookFilter)list=list.filter(s=>{let L=lessonById(s.lessonId);return L&&L.book===sBookFilter;}); let q=$('sSearch')?($('sSearch').value||'').trim():''; if(q)list=list.filter(s=>(s.kr+s.cn+s.title).includes(q)); return list;}
 function setCat(c){curCat=c;refreshAndCats();}
 function refreshAndCats(){renderCats(); let f=filteredS(); if(f.length&&!f.includes(cur)){cur=f[0];curWord=-1;} renderSList(); renderSentence();}
@@ -729,14 +871,14 @@ function speakBubbleWord(){if(bubbleCtx)speak(bubbleCtx.tok,0.9);}
 function speakBubbleSentence(){if(bubbleCtx&&bubbleCtx.sent)speak(bubbleCtx.sent.kr,1);}
 function showWordBubble(anchor,raw,sent){
   const b=$('wordBubble'); if(!b||!anchor)return;
-  const e=explainToken(raw,sent); bubbleCtx={tok:e.tok,sent};
+  const e=explainToken(raw,sent); bubbleCtx={tok:e.tok,sent:sent,base:e.base};
   b.innerHTML='<button class="closeX" onclick="closeWordBubble()">×</button><h4>'+e.tok+'</h4>'
     +'<div><span class="tag">'+(e.pos||'词')+'</span><span class="tag pink">'+(e.lesson||'')+'</span></div>'
     +'<div style="margin-top:6px"><span class="tag mint">词义</span><b>'+(e.cn||'')+'</b>'+(e.base&&e.base!==e.tok?' <span class="muted">（原形：'+e.base+'）</span>':'')+'</div>'
     +(e.roman?'<div><span class="tag">读音</span>'+e.roman+'</div>':'')
     +'<div class="kv"><b>🔍 拆解/讲解</b><br>'+(e.gram||'')+'</div>'
     +(e.exKr?'<div class="kv"><b>📖 例句</b><br>'+e.exKr+'<br><span class="muted">'+(e.exCn||'')+'</span></div>':'')
-    +'<div class="controls" style="margin:8px 0 0"><button class="btn" onclick="speakBubbleWord()">🔊 点读这个词</button><button class="btn soft" onclick="speakBubbleSentence()">🔊 整句范读</button></div>';
+    +'<div class="controls" style="margin:8px 0 0"><button class="btn" onclick="speakBubbleWord()">🔊 点读这个词</button><button class="btn soft" onclick="speakBubbleSentence()">🔊 整句范读</button><button class="btn soft" onclick="addMyWord(bubbleCtx.base||bubbleCtx.tok)">⭐ 生词本</button></div>';
   b.classList.remove('hide');
   const r=anchor.getBoundingClientRect();
   const bw=Math.min(330,document.documentElement.clientWidth-16);
@@ -787,7 +929,7 @@ function renderVocab(){let q=($('vSearch').value||'').toLowerCase(),b=$('vBook')
  $('vCount').textContent=`共 ${list.length} 个词条${les&&lessonById(les)?' · 第'+lessonById(les).no+'课 '+lessonById(les).title:''}${sec?' · 第'+sec+'节':''} · 点词卡=范读+看右侧拓展栏`;
  $('vGrid').innerHTML=list.length?list.map(v=>`<button class="vcard ${v===curV?'on':''}" onclick="pickV('${v[0]}')"><b>${v[0]}</b> <span class="tag">${v[2]}</span><br><span class="muted">${v[1]} · ${v[5]} · ${secLabel(v,les)}</span><br><b style="font-size:15px">${v[3]}</b></button>`).join(''):'<p class="muted">没找到，换关键词试试～</p>';renderVDetail();}
 function pickV(k){curV=V.find(v=>v[0]===k);renderVocab();speak(curV[0],0.9);}
-function renderVDetail(){let v=curV;if(!v)return;$('vDetail').innerHTML=`<div class="muted">${v[4]} · ${v[5]} · ${secLabel(v)}</div><h3>${v[0]}</h3><div>${v[1]} · ${v[2]} · <b>${v[3]}</b></div><div class="controls"><button class="btn" onclick="speak('${v[0]}',1)">🔊 范读</button><button class="btn soft" onclick="speak('${v[0]}',0.6)">🐢 慢读</button><button class="btn soft" onclick="speak('${v[13]}',0.9)">▶ 例句</button></div><div class="kv"><b>📖 例句</b><br>${v[13]}<br><span class="muted">${v[14]}</span></div><div class="kv"><b>🌱 来源</b>：<span class="tag">${v[7]}</span>${v[8]}</div><div class="kv"><b>🔗 相关词</b>：${v[9]||'—'}</div><div class="kv"><b>≈ 同义词</b>：${v[10]||'—'}　<b>↔ 反义词</b>：${v[11]||'—'}</div><div class="kv"><b>🧩 搭配</b>：${v[12]||'—'}</div>`;}
+function renderVDetail(){let v=curV;if(!v)return;$('vDetail').innerHTML=`<div class="muted">${v[4]} · ${v[5]} · ${secLabel(v)}</div><h3>${v[0]}</h3><div>${v[1]} · ${v[2]} · <b>${v[3]}</b></div><div class="controls"><button class="btn" onclick="speak('${v[0]}',1)">🔊 范读</button><button class="btn soft" onclick="speak('${v[0]}',0.6)">🐢 慢读</button><button class="btn soft" onclick="speak('${v[13]}',0.9)">▶ 例句</button><button class="btn soft" onclick="addMyWord('${v[0]}')">⭐ 生词本</button></div><div class="kv"><b>📖 例句</b><br>${v[13]}<br><span class="muted">${v[14]}</span></div><div class="kv"><b>🌱 来源</b>：<span class="tag">${v[7]}</span>${v[8]}</div><div class="kv"><b>🔗 相关词</b>：${v[9]||'—'}</div><div class="kv"><b>≈ 同义词</b>：${v[10]||'—'}　<b>↔ 反义词</b>：${v[11]||'—'}</div><div class="kv"><b>🧩 搭配</b>：${v[12]||'—'}</div>`;}
 
 // ---- 语法点补全（检查后补齐）：原每课只有3~4点，现按每课4小节补到每课6~9点 ----
 // 格式同课本语法：名称|句型|要点|例句韩|例句中|针对题|选项(/)|答案序号|解析，并标注所属小节sec
@@ -843,6 +985,11 @@ Y10:[[1,'意图表现|-(으)려고 하다|打算、想要做…|방학에 여행
 };
 Object.keys(EXTRA_G).forEach(lid=>{const L=lessonById(lid); if(!L)return; EXTRA_G[lid].forEach(pair=>{const sec=pair[0], p=pair[1].split('|'); L.grammar.push({name:p[0],pattern:p[1],brief:p[2],exKr:p[3],exCn:p[4],dq:p[5],opts:(p[6]||'').split('/'),ans:+p[7],exp:p[8],sec:sec});});});
 LESSONS.forEach(L=>{L.grammar=L.grammar.map((g,i)=>[g,i]).sort((a,b)=>((a[0].sec||1)-(b[0].sec||1))||(a[1]-b[1])).map(x=>x[0]);});
+// 语法专属例句（[[ ]]内为该语法点的形式，页面上标红显示；用词限本课及以前）
+const EXS={"Y01|正式判断句": [["저는 학생[[입니다]].", "我是学生。"], ["왕웨이 씨[[입니까]]?", "是王伟先生吗？"], ["선생님은 의사[[입니다]].", "老师是医生。"], ["저분은 학생[[입니까]]?", "那位是学生吗？"], ["저는 리에[[입니다]].", "我是理惠。"]], "Y01|主题助词": [["제 이름[[은]] 왕웨이입니다.", "我的名字是王伟。"], ["저[[는]] 학생입니다.", "我是学生。"], ["선생님[[은]] 한국 사람입니다.", "老师是韩国人。"], ["제 친구[[는]] 일본 사람입니다.", "我的朋友是日本人。"], ["이 학생[[은]] 중국 사람입니다.", "这位学生是中国人。"]], "Y01|来自哪里": [["저는 중국[[에서 왔어요]].", "我来自中国。"], ["리에는 일본[[에서 왔어요]].", "理惠来自日本。"], ["웨이는 미국[[에서 왔어요]].", "王伟来自美国。"], ["제 친구는 독일[[에서 왔어요]].", "我的朋友来自德国。"], ["선생님은 한국[[에서 왔어요]].", "老师来自韩国。"]], "Y01|否定判断": [["저는 회사원[[이 아닙니다]].", "我不是公司职员。"], ["저분은 학생[[이 아닙니다]].", "那位不是学生。"], ["저는 은행원[[이 아닙니다]].", "我不是银行职员。"], ["리에는 중국 사람[[이 아닙니다]].", "理惠不是中国人。"], ["이분은 의사[[가 아닙니다]].", "这位不是医生。"]], "Y01|主格助词": [["이름[[이]] 무엇입니까?", "名字是什么？"], ["성[[이]] 무엇입니까?", "您姓什么？"], ["왕웨이 씨[[가]] 학생입니까?", "王伟先生是学生吗？"], ["제 친구[[가]] 한국 사람입니다.", "我的朋友是韩国人。"], ["이 학생[[이]] 왕웨이입니다.", "这位学生是王伟。"]], "Y01|格式体终结词尾": [["저는 한국어를 공부[[합니다]].", "我学习韩语。"], ["저는 학교에 [[갑니다]].", "我去学校。"], ["한국말을 [[배웁니까]]?", "您学韩语吗？"], ["저는 친구를 [[만납니다]].", "我见朋友。"], ["웨이는 지금 공부[[합니까]]?", "王伟现在在学习吗？"]], "Y02|指示词": [["[[이것]]은 교과서입니다.", "这是课本。"], ["[[그것]]은 사전이에요.", "那是词典。"], ["[[저것]]은 지도입니다.", "那（远处）是地图。"], ["[[이것]]은 제 가방이에요.", "这是我的包。"], ["[[저것]]은 무엇입니까?", "那是什么？"]], "Y02|疑问词 무엇": [["이것은 [[무엇입니까]]?", "这是什么？"], ["저것은 [[무엇입니까]]?", "那是什么？"], ["이것이 [[무엇입니까]]?", "这是什么？"], ["그것은 [[무엇입니까]]?", "那是什么？"], ["저것이 [[무엇입니까]]?", "那是什么？"]], "Y02|附加": [["사전[[도]] 있어요.", "词典也有。"], ["교실에 의자[[도]] 있어요.", "教室里也有椅子。"], ["가방[[도]] 있어요.", "包也有。"], ["지도[[도]] 있어요.", "地图也有。"], ["우산[[도]] 있어요.", "伞也有。"]], "Y02|存在 있다/없다": [["교실에 의자가 [[있어요]].", "教室里有椅子。"], ["방에 책상이 [[없어요]].", "房间里没有桌子。"], ["가방에 공책이 [[있어요]].", "包里有练习本。"], ["학교에 은행이 [[없어요]].", "学校里没有银行。"], ["제 방에 시계가 [[있어요]].", "我的房间里有表。"]], "Y02|存在与位置": [["은행은 도서관 [[옆에]] 있어요.", "银行在图书馆旁边。"], ["책은 책상 [[위에]] 있어요.", "书在桌子上面。"], ["가방은 책상 [[아래에]] 있어요.", "包在桌子下面。"], ["학교는 병원 [[앞에]] 있어요.", "学校在医院前面。"], ["사전은 가방 [[안에]] 있어요.", "词典在包里面。"]], "Y02|处所疑问 어디": [["은행이 [[어디]]에 있어요?", "银行在哪里？"], ["우체국이 [[어디]]에 있어요?", "邮局在哪里？"], ["제 가방이 [[어디]]에 있어요?", "我的包在哪里？"], ["화장실이 [[어디]]에 있어요?", "卫生间在哪里？"], ["학교가 [[어디]]에 있어요?", "学校在哪里？"]], "Y03|宾格助词": [["저는 가족 사진[[을]] 봐요.", "我在看家庭照片。"], ["동생은 텔레비전[[을]] 봐요.", "弟弟看电视。"], ["어머니는 신문[[을]] 봐요.", "母亲看报纸。"], ["형은 음악[[을]] 들어요.", "哥哥听音乐。"], ["저는 숙제[[를]] 해요.", "我做作业。"]], "Y03|敬语词尾": [["아버지는 책을 읽[[으세요]].", "父亲读书。（敬）"], ["선생님은 학교에 가[[세요]].", "老师去学校。（敬）"], ["어머니는 지금 쉬[[세요]].", "母亲现在休息。（敬）"], ["아버지는 신문을 보[[세요]].", "父亲看报纸。（敬）"], ["할머니는 밥을 드[[세요]].", "奶奶吃饭。（敬）"]], "Y03|敬语存在 계시다": [["부모님은 고향에 [[계세요]].", "父母在家乡。（敬）"], ["선생님은 교실에 [[계세요]].", "老师在教室。（敬）"], ["할아버지는 방에 [[계세요]].", "爷爷在房间。（敬）"], ["할머니는 집에 [[계세요]].", "奶奶在家。（敬）"], ["아버지는 지금 안 [[계세요]].", "父亲现在不在。（敬）"]], "Y03|固有数词与量词": [["가족이 [[네 명]]이에요.", "家里有四口人。"], ["학생이 [[세 명]] 있어요.", "有三名学生。"], ["공책이 [[두 개]] 있어요.", "有两个练习本。"], ["의자가 [[네 개]] 있어요.", "有四把椅子。"], ["동생이 [[한 명]] 있어요.", "我有一个弟弟/妹妹。"]], "Y03|连接列举": [["형은 크[[고]] 동생은 작아요.", "哥哥高，弟弟矮。"], ["이 방은 넓[[고]] 좋아요.", "这间房又大又好。"], ["공원이 조용하[[고]] 좋아요.", "公园又安静又好。"], ["이 가방은 가볍[[고]] 좋아요.", "这个包又轻又好。"], ["공원이 넓[[고]] 조용해요.", "公园大又安静。"]], "Y03|动作场所 에서": [["저는 대학교[[에서]] 경제학을 공부해요.", "我在大学学习经济学。"], ["동생은 도서관[[에서]] 책을 읽어요.", "弟弟在图书馆看书。"], ["형은 회사[[에서]] 일해요.", "哥哥在公司工作。"], ["저는 집[[에서]] 숙제를 해요.", "我在家做作业。"], ["학생들은 교실[[에서]] 공부해요.", "学生们在教室学习。"]], "Y04|移动与同行": [["친구와 같이 한식집[[에 가요]].", "和朋友一起去韩餐馆。"], ["저는 혼자 중국집[[에 가요]].", "我独自去中餐馆。"], ["친구가 우리 집[[에 와요]].", "朋友来我家。"], ["오늘은 혼자 한식집[[에 가요]].", "今天独自去韩餐馆。"], ["내일 어머니와 같이 식당[[에 가요]].", "明天和母亲一起去餐厅。"]], "Y04|提议": [["같이 [[갈까요]]?", "一起去吗？"], ["한식집에 [[갑시다]].", "去韩餐馆吧。"], ["커피를 [[마실까요]]?", "喝咖啡吗？"], ["같이 밥을 [[먹읍시다]].", "一起吃饭吧。"], ["중국집에 [[갈까요]]?", "去中餐馆吗？"]], "Y04|连接助词 하고": [["친구[[하고]] 같이 식당에 가요.", "和朋友一起去餐馆。"], ["동생[[하고]] 같이 가요.", "和弟弟一起去。"], ["사과[[하고]] 바나나를 주세요.", "请给我苹果和香蕉。"], ["커피[[하고]] 우유 주세요.", "请给我咖啡和牛奶。"], ["어머니[[하고]] 같이 한식집에 가요.", "和母亲一起去韩餐馆。"]], "Y04|喜好表现": [["저는 김치찌개[[를]] 좋아해요.", "我喜欢泡菜汤。"], ["친구는 자장면[[을]] 좋아해요.", "朋友喜欢炸酱面。"], ["동생은 초밥[[을]] 좋아해요.", "弟弟喜欢寿司。"], ["저는 한식[[을]] 좋아해요.", "我喜欢韩餐。"], ["어머니는 양식[[을]] 좋아해요.", "母亲喜欢西餐。"]], "Y04|长否定": [["이 음식은 맵[[지 않아요]].", "这个菜不辣。"], ["이 국은 싱겁[[지 않아요]].", "这个汤不淡。"], ["저는 커피를 마시[[지 않아요]].", "我不喝咖啡。"], ["이 빵은 달[[지 않아요]].", "这个面包不甜。"], ["동생은 고기를 먹[[지 않아요]].", "弟弟不吃肉。"]], "Y04|愿望": [["냉면을 먹[[고 싶어요]].", "我想吃冷面。"], ["저는 김치찌개를 먹[[고 싶어요]].", "我想吃泡菜汤。"], ["커피를 마시[[고 싶어요]].", "我想喝咖啡。"], ["저는 집에 가[[고 싶어요]].", "我想回家。"], ["친구를 만나[[고 싶어요]].", "我想见朋友。"]], "Y04|请求表现": [["물 한 잔 [[주세요]].", "请给我一杯水。"], ["김밥 두 개 [[주세요]].", "请给我两个紫菜包饭。"], ["메뉴 [[주십시오]].", "请给我菜单。（正式）"], ["커피 한 잔 [[주세요]].", "请给我一杯咖啡。"], ["이 빵 [[주세요]].", "请给我这个面包。"]], "Y04|敬语给 드리다": [["부모님에게 선물을 [[드려요]].", "给父母送礼物。（敬）"], ["할머니에게 선물을 [[드려요]].", "给奶奶送礼物。（敬）"], ["선생님에게 이 책을 [[드려요]].", "把这本书给老师。（敬）"], ["아버지에게 커피를 [[드려요]].", "给父亲端咖啡。（敬）"], ["어머니에게 선물을 [[드립니다]].", "给母亲送礼物。（敬·正式）"]], "Y05|时间与日期": [["지금 [[일곱 시 반]]이에요.", "现在是七点半。"], ["오늘은 [[십월 오일]]이에요.", "今天是10月5日。"], ["오늘은 [[금요일]]이에요.", "今天是星期五。"], ["내일은 [[토요일]]이에요.", "明天是星期六。"], ["지금 [[세 시 십분]]이에요.", "现在是三点十分。"]], "Y05|口语判断": [["지금 일곱 시 반[[이에요]].", "现在是七点半。"], ["이것은 커피[[예요]].", "这是咖啡。"], ["저는 학생[[이에요]].", "我是学生。"], ["이것은 사과[[예요]].", "这是苹果。"], ["오늘은 금요일[[이에요]].", "今天是星期五。"]], "Y05|确认语尾": [["오늘이 목요일[[이지요]]?", "今天是星期四吧？"], ["오늘은 금요일[[이지요]]?", "今天是星期五吧？"], ["지금 세 시[[지요]]?", "现在是三点吧？"], ["내일은 토요일[[이지요]]?", "明天是星期六吧？"], ["내일도 수업이 있[[지요]]?", "明天也有课吧？"]], "Y05|敬语语尾": [["선생님은 몇 시에 일어나[[세요]]?", "老师几点起床？（敬）"], ["아버지는 아침에 운동하[[세요]].", "父亲早晨锻炼。（敬）"], ["어머니는 몇 시에 주무[[세요]]?", "母亲几点睡？（敬）"], ["할머니는 지금 쉬[[세요]].", "奶奶现在休息。（敬）"], ["선생님은 도서관에서 책을 읽[[으세요]].", "老师在图书馆看书。（敬）"]], "Y05|非正式敬语": [["저는 일곱 시에 일어나[[요]].", "我七点起床。"], ["아침에 밥을 먹[[어요]].", "早晨吃饭。"], ["학교에서 한국어를 공부[[해요]].", "在学校学韩语。"], ["저녁에 텔레비전을 [[봐요]].", "晚上看电视。"], ["집에서 숙제를 [[해요]].", "在家做作业。"]], "Y05|时间助词 에": [["저는 일곱 시[[에]] 일어나요.", "我七点起床。"], ["아홉 시[[에]] 학교에 가요.", "九点去学校。"], ["열두 시[[에]] 밥을 먹어요.", "十二点吃饭。"], ["세 시 반[[에]] 친구를 만나요.", "三点半见朋友。"], ["아침 일곱 시[[에]] 운동해요.", "早晨七点锻炼。"]], "Y05|起止范围": [["월요일[[부터]] 금요일[[까지]] 수업이 있어요.", "从周一到周五都有课。"], ["아홉 시[[부터]] 한 시[[까지]] 공부해요.", "从九点学到一点。"], ["아침[[부터]] 저녁[[까지]] 일해요.", "从早晨工作到晚上。"], ["일월[[부터]] 십이월[[까지]] 한국어를 배워요.", "从一月学韩语学到十二月。"], ["세 시[[부터]] 다섯 시[[까지]] 수업이 있어요.", "从三点到五点有课。"]], "Y05|先后连接": [["밥을 먹[[고]] 학교에 가요.", "吃完饭去学校。"], ["세수를 하[[고]] 아침을 먹어요.", "洗脸后吃早饭。"], ["일곱 시에 일어나[[고]] 운동해요.", "七点起来后锻炼。"], ["숙제를 하[[고]] 텔레비전을 봐요.", "做完作业看电视。"], ["손을 씻[[고]] 밥을 먹어요.", "洗手后吃饭。"]], "Y05|过去时": [["어제 친구를 [[만났어요]].", "昨天见了朋友。"], ["어제 김밥을 [[먹었어요]].", "昨天吃了紫菜包饭。"], ["어제 숙제를 [[했어요]].", "昨天做了作业。"], ["주말에 고향에 [[갔어요]].", "周末回了家乡。"], ["어제 책을 [[읽었어요]].", "昨天读了书。"]], "Y06|目的": [["선물을 [[사러]] 백화점에 가요.", "去百货商店买礼物。"], ["책을 [[사러]] 서점에 가요.", "去书店买书。"], ["옷을 [[보러]] 백화점에 가요.", "去百货商店看衣服。"], ["친구를 [[만나러]] 학교에 가요.", "去学校见朋友。"], ["밥을 [[먹으러]] 식당에 가요.", "去餐厅吃饭。"]], "Y06|名词连接 와/과": [["저는 책[[과]] 사전을 사요.", "我买书和词典。"], ["사과[[와]] 바나나를 사요.", "买苹果和香蕉。"], ["이 옷[[과]] 바지를 사요.", "买这件衣服和裤子。"], ["연필[[과]] 공책을 사요.", "买铅笔和练习本。"], ["모자[[와]] 장갑을 사요.", "买帽子和手套。"]], "Y06|性状形容词": [["이 바지는 [[싸요]].", "这条裤子便宜。"], ["저 가방은 [[비싸요]].", "那个包贵。"], ["이 옷은 [[커요]].", "这件衣服大。"], ["이 신발은 [[작아요]].", "这双鞋小。"], ["이 우산은 [[싸요]].", "这把伞便宜。"]], "Y06|转折": [["좋[[지만]] 조금 비싸요.", "好是好，但有点贵。"], ["이 가방은 크[[지만]] 가벼워요.", "这个包大，但是轻。"], ["이 옷은 비싸[[지만]] 좋아요.", "这件衣服贵，但是好。"], ["김치찌개는 맵[[지만]] 맛있어요.", "泡菜汤辣，但是好吃。"], ["이 신발은 작[[지만]] 예뻐요.", "这双鞋小，但是漂亮。"]], "Y06|指示冠形词": [["[[이]] 옷은 싸요.", "这件衣服便宜。"], ["[[그]] 바지는 비싸요.", "那条裤子贵。"], ["[[저]] 가방은 커요.", "那个包大。"], ["[[이]] 신발은 작아요.", "这双鞋小。"], ["[[저]] 우산은 싸요.", "那把伞便宜。"]], "Y06|问价与价格": [["이 바지 [[얼마예요]]?", "这条裤子多少钱？"], ["이 신발은 [[삼만 원]]이에요.", "这双鞋三万韩元。"], ["이 가방 [[얼마예요]]?", "这个包多少钱？"], ["이 모자는 [[오천 원]]이에요.", "这顶帽子五千韩元。"], ["이 우산 [[얼마예요]]?", "这把伞多少钱？"]], "Y06|数量表达": [["신발 [[한 켤레]] 주세요.", "请给我一双鞋。"], ["사과 [[세 개]] 주세요.", "请给我三个苹果。"], ["책 [[두 권]] 사요.", "买两本书。"], ["사진 [[두 장]] 주세요.", "请给我两张照片。"], ["연필 [[다섯 개]] 사요.", "买五支铅笔。"]], "Y06|给予对象 에게": [["친구[[에게]] 선물을 줘요.", "把礼物给朋友。"], ["동생[[에게]] 책을 줘요.", "把书给弟弟。"], ["할머니[[에게]] 선물을 드려요.", "给奶奶送礼物。（敬）"], ["형[[에게]] 돈을 줘요.", "把钱给哥哥。"], ["친구[[에게]] 이 책을 줘요.", "把这本书给朋友。"]], "Y06|将来定语形": [["내일 [[할]] 일이 많아요.", "明天要做的事情很多。"], ["내일 [[먹을]] 음식이 없어요.", "明天要吃的食物没有。"], ["주말에 [[갈]] 곳이 많아요.", "周末要去的地方很多。"], ["내일 [[읽을]] 책이 있어요.", "有明天要读的书。"], ["오늘 [[할]] 숙제가 많아요.", "今天要做的作业很多。"]], "Y07|方向助词": [["왼쪽[[으로]] 가세요.", "请向左走。"], ["오른쪽[[으로]] 가세요.", "请向右走。"], ["이쪽[[으로]] 오세요.", "请往这边走。"], ["저쪽[[으로]] 가세요.", "请往那边走。"], ["앞[[으로]] 가세요.", "请往前走。"]], "Y07|顺承连接": [["학교에 [[가서]] 공부해요.", "去学校学习。"], ["집에 [[가서]] 쉬어요.", "回到家休息。"], ["도서관에 [[가서]] 책을 읽어요.", "去图书馆看书。"], ["친구를 [[만나서]] 같이 가요.", "见到朋友一起去。"], ["식당에 [[가서]] 밥을 먹어요.", "去餐厅吃饭。"]], "Y07|方向与交通工具": [["지하철[[로]] 학교에 가요.", "坐地铁去学校。"], ["버스[[로]] 집에 가요.", "坐公交回家。"], ["택시[[로]] 백화점에 가요.", "坐出租车去百货商店。"], ["기차[[로]] 고향에 가요.", "坐火车回家乡。"], ["자전거[[로]] 학교에 가요.", "骑自行车去学校。"]], "Y07|所要时间": [["여기서 학교까지 [[얼마나 걸려요]]?", "从这里到学校要多久？"], ["집에서 도서관까지 [[얼마나 걸려요]]?", "从家到图书馆要多久？"], ["서울에서 부산까지 [[얼마나 걸려요]]?", "从首尔到釜山要多久？"], ["학교에서 백화점까지 [[얼마나 걸려요]]?", "从学校到百货商店要多久？"], ["여기서 은행까지 [[얼마나 걸려요]]?", "从这里到银行要多久？"]], "Y07|地点范围": [["여기[[에서]] 학교[[까지]] 멀어요.", "从这里到学校很远。"], ["집[[에서]] 회사[[까지]] 한 시간 걸려요.", "从家到公司要一小时。"], ["도서관[[에서]] 은행[[까지]] 가까워요.", "从图书馆到银行很近。"], ["서울[[에서]] 부산[[까지]] 멀어요.", "从首尔到釜山很远。"], ["학교[[에서]] 집[[까지]] 십 분 걸려요.", "从学校到家要十分钟。"]], "Y07|换乘动作": [["버스를 [[타요]].", "我乘公交车。"], ["지하철에서 [[내려요]].", "我下地铁。"], ["시청에서 지하철로 [[갈아타요]].", "在市厅换乘地铁。"], ["택시를 [[타요]].", "我乘出租车。"], ["여기서 [[내려요]].", "在这里下车。"]], "Y07|原因语尾": [["사람이 많[[으니까]] 조심하세요.", "人多，请小心。"], ["비가 오[[니까]] 조심하세요.", "下雨，请小心。"], ["길이 막히[[니까]] 지하철로 가요.", "堵车，所以坐地铁去。"], ["시간이 없[[으니까]] 택시를 타요.", "没时间，所以坐出租车。"], ["사람이 많[[으니까]] 천천히 가세요.", "人多，请慢慢走。"]], "Y07|禁止表现": [["여기서 사진을 찍[[지 마세요]].", "请不要在这里拍照。"], ["늦게 오[[지 마세요]].", "请不要来晚。"], ["여기서 담배를 피우[[지 마세요]].", "请不要在这里抽烟。"], ["여기서 뛰[[지 마세요]].", "请不要在这里跑。"], ["여기서 먹[[지 마세요]].", "请不要在这里吃东西。"]], "Y07|不规则活用": [["이 김치찌개는 [[매워요]].", "这个泡菜汤很辣。（맵다→매워요）"], ["이 음식은 [[매워요]].", "这个菜很辣。（맵다→매워요）"], ["저는 매일 학교까지 [[걸어가요]].", "我每天走着去学校。（걷다→걸어가요）"], ["공원에서 [[걸어요]].", "在公园走路。（걷다→걸어요）"], ["같이 [[걸어가요]].", "一起走着去吧。（걷다→걸어가요）"]], "Y08|承诺": [["내일 다시 전화[[할게요]].", "明天再给您打电话。"], ["이따가 전화[[할게요]].", "一会儿我打电话。"], ["늦으면 바로 전화[[할게요]].", "晚了就马上打电话。"], ["집에 가서 전화[[할게요]].", "回家后打电话。"], ["내일 아침에 전화[[할게요]].", "明早打电话。"]], "Y08|选择助词": [["아침[[이나]] 저녁에 전화할게요.", "早上或晚上我打电话。"], ["전화[[나]] 문자로 알려 주세요.", "请用电话或短信告诉我。"], ["오늘[[이나]] 내일 전화할게요.", "今天或明天我打电话。"], ["이메일[[이나]] 전화로 알려 주세요.", "请用邮件或电话告诉我。"], ["지금[[이나]] 이따가 전화할게요.", "现在或一会儿我打电话。"]], "Y08|打电话表达": [["친구에게 [[전화를 걸어요]].", "给朋友打电话。"], ["지금 [[전화를 받아요]].", "现在接电话。"], ["선생님에게 [[전화를 걸어요]].", "给老师打电话。"], ["저는 매일 어머니에게 [[전화를 걸어요]].", "我每天给母亲打电话。"], ["이따가 [[전화를 걸게요]].", "一会儿我打电话。"]], "Y08|背景陈述": [["지금 통화 중[[인데요]].", "现在正在通话中。"], ["왕웨이 씨는 지금 없[[는데요]].", "王伟现在不在。"], ["저는 학생[[인데요]].", "我是学生。（先说明情况）"], ["지금 세 시[[인데요]].", "现在是三点。（先说明情况）"], ["친구는 지금 자[[는데요]].", "朋友现在正在睡觉。"]], "Y08|约定与条件": [["늦[[으면]] 전화할게요.", "晚了就给你打电话。"], ["비가 [[오면]] 집에 있어요.", "下雨就待在家里。"], ["시간이 [[있으면]] 전화할게요.", "有时间就打电话。"], ["내일 날씨가 좋[[으면]] 같이 가요.", "明天天气好就一起去。"], ["돈이 [[없으면]] 카드로 해요.", "没钱就刷卡。"]], "Y08|来源助词": [["친구[[에게서]] 전화가 왔어요.", "接到朋友打来的电话。"], ["동생[[한테서]] 전화가 왔어요.", "接到弟弟打来的电话。"], ["어머니[[에게서]] 이메일을 받았어요.", "收到母亲发来的邮件。"], ["선생님[[에게서]] 소식을 들었어요.", "从老师那里听到了消息。"], ["친구[[한테서]] 선물을 받았어요.", "从朋友那里收到了礼物。"]], "Y08|限定助词 만": [["저[[만]] 집에 있어요.", "只有我在家。"], ["한 시간[[만]] 걸려요.", "只要一小时。"], ["오늘[[만]] 쉬어요.", "只今天休息。"], ["이 책[[만]] 사요.", "只买这本书。"], ["친구[[만]] 왔어요.", "只有朋友来了。"]], "Y09|能力与原因": [["스키를 [[탈 수 있으니까]] 겨울을 좋아해요.", "因为能滑雪，所以喜欢冬天。"], ["저는 수영을 [[할 수 있어요]].", "我会游泳。"], ["눈이 오[[니까]] 조심하세요.", "下雪，请小心。"], ["저는 자전거를 [[탈 수 있어요]].", "我会骑自行车。"], ["바람이 부[[니까]] 추워요.", "刮风，所以冷。"]], "Y09|背景转折": [["겨울에는 눈이 오[[는데]] 스키를 탈 수 있어요.", "冬天会下雪，能滑雪。"], ["오늘은 비가 오[[는데]] 우산이 없어요.", "今天下雨，可是没有伞。"], ["오늘은 따뜻[[한데]] 바람이 불어요.", "今天暖和，可是刮风。"], ["이 방은 조용[[한데]] 좋아요.", "这间房安静，而且很好。"], ["날씨가 좋[[은데]] 바람이 불어요.", "天气好，可是刮风。"]], "Y09|天气描写": [["오늘은 춥[[고]] 바람이 불어요.", "今天冷，刮着风。"], ["어제는 맑[[고]] 따뜻했어요.", "昨天晴朗又暖和。"], ["오늘은 흐리[[고]] 비가 와요.", "今天阴天，还下雨。"], ["겨울은 춥[[고]] 눈이 와요.", "冬天冷，还下雪。"], ["오늘은 덥[[고]] 바람이 안 불어요.", "今天热，没有风。"]], "Y09|推测语尾": [["내일은 비가 오[[겠어요]].", "明天大概会下雨。"], ["내일은 날씨가 좋[[겠어요]].", "明天天气大概会好。"], ["오늘은 눈이 오[[겠어요]].", "今天大概会下雪。"], ["내일은 오늘보다 따뜻하[[겠어요]].", "明天大概会比今天暖和。"], ["바람이 많이 불[[겠어요]].", "风大概会刮得很大。"]], "Y09|先后表现": [["운동을 [[한 후에]] 쉬어요.", "运动之后休息。"], ["밥을 [[먹은 후에]] 집에 가요.", "吃完饭后回家。"], ["수업이 [[끝난 후에]] 집에 가요.", "下课后回家。"], ["운동을 [[한 후에]] 물을 마셔요.", "运动之后喝水。"], ["눈이 [[온 후에]] 스키를 타요.", "下雪之后滑雪。"]], "Y09|比较": [["오늘은 어제[[보다]] 따뜻해요.", "今天比昨天暖和。"], ["겨울은 가을[[보다]] 추워요.", "冬天比秋天冷。"], ["오늘은 어제[[보다]] 더워요.", "今天比昨天热。"], ["이 방은 저 방[[보다]] 커요.", "这间房比那间房大。"], ["바람이 어제[[보다]] 많이 불어요.", "风比昨天刮得大。"]], "Y09|推测判断": [["오늘은 따뜻[[할 것 같아요]].", "今天好像很暖和。"], ["내일은 비가 [[올 것 같아요]].", "明天好像会下雨。"], ["오늘은 눈이 [[올 것 같아요]].", "今天好像会下雪。"], ["바람이 많이 [[불 것 같아요]].", "风好像会刮得很大。"], ["내일은 날씨가 [[맑을 것 같아요]].", "明天天气好像会放晴。"]], "Y09|进行表现": [["사람들이 운동을 [[하고 있어요]].", "人们正在锻炼。"], ["지금 비가 [[오고 있어요]].", "现在正在下雨。"], ["사람들이 공원에서 [[걷고 있어요]].", "人们正在公园里走路。"], ["지금 눈이 [[오고 있어요]].", "现在正在下雪。"], ["학생들이 교실에서 공부[[하고 있어요]].", "学生们正在教室里学习。"]], "Y09|感叹语尾": [["꽃이 정말 예쁘[[군요]].", "花真漂亮啊！"], ["날씨가 정말 좋[[군요]].", "天气真好啊！"], ["오늘은 정말 춥[[군요]].", "今天真冷啊！"], ["바람이 많이 부[[는군요]].", "风刮得真大啊！"], ["이 공원이 정말 넓[[군요]].", "这个公园真大啊！"]], "Y10|计划": [["방학에 설악산에 [[갈 거예요]].", "假期打算去雪岳山。"], ["주말에 영화를 [[볼 거예요]].", "周末打算看电影。"], ["내일 친구를 [[만날 거예요]].", "明天打算见朋友。"], ["방학에 고향에 [[갈 거예요]].", "假期打算回家乡。"], ["저는 한국어를 더 [[배울 거예요]].", "我打算多学一点韩语。"]], "Y10|意图表现": [["방학에 여행을 [[가려고 해요]].", "假期打算去旅行。"], ["저는 설악산에 [[가려고 해요]].", "我打算去雪岳山。"], ["주말에 영화를 [[보려고 해요]].", "周末想看电影。"], ["한국어를 [[배우려고 해요]].", "我想学韩语。"], ["친구를 [[만나려고 해요]].", "我想见朋友。"]], "Y10|期间表现": [["방학 [[동안]] 여행을 해요.", "假期期间去旅行。"], ["주말 [[동안]] 집에서 쉬어요.", "周末期间在家休息。"], ["방학 [[동안]] 한국어를 공부해요.", "假期期间学韩语。"], ["여행 [[동안]] 사진을 찍어요.", "旅行期间拍照。"], ["일주일 [[동안]] 고향에 있어요.", "一周期间在家乡。"]], "Y10|时候": [["시간이 [[있을 때]] 여행을 가요.", "有时间的时候去旅行。"], ["밥을 [[먹을 때]] 물을 마셔요.", "吃饭的时候喝水。"], ["고향에 [[갈 때]] 기차를 타요.", "回家乡的时候坐火车。"], ["시간이 [[없을 때]] 집에서 쉬어요.", "没时间的时候在家休息。"], ["한국어를 [[공부할 때]] 음악을 들어요.", "学韩语的时候听音乐。"]], "Y10|范围选择": [["계절 [[중에서]] 겨울을 좋아해요.", "在季节当中喜欢冬天。"], ["과일 [[중에서]] 사과를 좋아해요.", "在水果当中喜欢苹果。"], ["음식 [[중에서]] 김치찌개를 좋아해요.", "在食物当中喜欢泡菜汤。"], ["계절 [[중에서]] 봄을 좋아해요.", "在季节当中喜欢春天。"], ["나라 [[중에서]] 한국을 좋아해요.", "在国家当中喜欢韩国。"]], "Y10|大约表现": [["세 시[[쯤]]에 가요.", "三点左右去。"], ["오후 두 시[[쯤]] 만나요.", "下午两点左右见面。"], ["열 시[[쯤]]에 집에 가요.", "十点左右回家。"], ["한 시간[[쯤]] 걸려요.", "大约需要一小时。"], ["이 가방은 만 원[[쯤]]이에요.", "这个包大约一万韩元。"]], "Y10|不能表现": [["극장에 자주 [[못]] 가요.", "不能经常去电影院。"], ["시간이 없어서 영화관에 [[못]] 가요.", "没时间，不能去电影院。"], ["오늘은 바빠서 친구를 [[못]] 만나요.", "今天忙，没能见朋友。"], ["돈이 없어서 이 가방을 [[못]] 사요.", "没钱，买不了这个包。"], ["저는 수영을 [[못]] 해요.", "我不会游泳。"]], "Y10|在…之前": [["[[자기 전에]] 책을 읽어요.", "睡觉之前读书。"], ["밥을 [[먹기 전에]] 손을 씻어요.", "吃饭之前洗手。"], ["학교에 [[가기 전에]] 숙제를 해요.", "上学之前做作业。"], ["[[자기 전에]] 이를 닦아요.", "睡觉之前刷牙。"], ["영화를 [[보기 전에]] 밥을 먹어요.", "看电影之前吃饭。"]]};
+LESSONS.forEach(L=>{L.grammar.forEach(g=>{const k=L.id+'|'+g.name; if(EXS[k]){g.exs=EXS[k]; g.exKr=EXS[k][0][0].replace(/\[\[|\]\]/g,''); g.exCn=EXS[k][0][1];}});});
+function markHtml(t){const e=String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); return e.replace(/\[\[(.+?)\]\]/g,'<span class="gm">$1</span>');}
+function plainKr(t){return String(t||'').replace(/\[\[|\]\]/g,'');}
 
 // 语法模块（按课时，训练词汇只用本课）
 let curGL=LESSONS[0], drill=null, gSec=0;
@@ -865,7 +1012,8 @@ function renderGSecChips(){const box=$('gSecChips'); if(!box||!curGL)return; con
 function setGSec(n){gSec=n; drill=null; renderGSecChips(); renderGDetail();}
 function _topicP(w){return w+(hasB(w)?'은':'는');}
 function _beP(w){return w+(hasB(w)?'이에요':'예요');}
-function grammarExamples(L,g){
+function grammarExamples(L,g){ if(g.exs&&g.exs.length)return g.exs.map(function(pr){return{kr:pr[0],cn:pr[1]};}); return grammarExamplesFallback(L,g); }
+function grammarExamplesFallback(L,g){
   let ex=[]; const add=(kr,cn)=>{if(kr&&!ex.some(e=>e.kr===kr))ex.push({kr,cn});};
   add(g.exKr,g.exCn);
   let ss=sentsOfLesson(L.id), vs=vocabOfLesson(L.id);
@@ -892,7 +1040,7 @@ function grammarExamples(L,g){
 function renderGDetail(){
   const L=curGL; if(!L)return;
   const _pts=L.grammar.map((g,i)=>({g:g,i:i})).filter(x=>!gSec||(x.g.sec||1)===gSec);
-  const points=_pts.map((x,pi)=>{const g=x.g,i=x.i;const exs=grammarExamples(L,g); return `<div class="qcard"><span class="tag">语法点 ${pi+1}</span> <span class="tag">第${g.sec||1}节</span> <b style="color:#174A78;font-size:17px">${g.name}</b> <span class="tag pink">${g.pattern}</span><div>${g.brief}</div><div class="kv"><b>例句（${exs.length}句，点🔊范读）</b>${exs.map((e,ei)=>`<div style="margin-top:6px">${ei+1}. ${e.kr} <button class="btn soft" style="padding:4px 8px" onclick="speak('${e.kr}',1)">🔊</button><br><span class="muted">${e.cn||''}</span></div>`).join('')}</div><button class="btn" onclick="startDrill('${L.id}',${i})">🎯 练这个语法点</button></div>`;}).join('');
+  const points=_pts.map((x,pi)=>{const g=x.g,i=x.i;const exs=grammarExamples(L,g); return `<div class="qcard"><span class="tag">语法点 ${pi+1}</span> <span class="tag">第${g.sec||1}节</span> <b style="color:#174A78;font-size:17px">${g.name}</b> <span class="tag pink">${g.pattern}</span><div>${g.brief}</div><div class="kv"><b>例句（${exs.length}句，<span class=\"gm\">粉色标出</span>的就是这个语法点，点🔊范读）</b>${exs.map((e,ei)=>`<div style="margin-top:6px">${ei+1}. ${markHtml(e.kr)} <button class="btn soft" style="padding:4px 8px" data-t="${plainKr(e.kr)}" onclick="speak(this.getAttribute('data-t'),1)">🔊</button><br><span class="muted">${e.cn||''}</span></div>`).join('')}</div><button class="btn" onclick="startDrill('${L.id}',${i})">🎯 练这个语法点</button></div>`;}).join('');
   $('gDetail').innerHTML=`<div class="muted">${L.book} · 第${L.no}课${gSec?' · 第'+gSec+'节 '+L.sections[gSec-1].title+'（例句与训练用词只取本节）':''}</div><h3 style="font-size:24px;color:#153E66;margin:4px 0">${L.title}</h3>
   <div class="chips"><span class="chip">📐 ${gSec?'本节语法点 '+_pts.length+' 个（本课共 '+L.grammar.length+' 个）':'语法点 '+L.grammar.length+' 个'}</span></div>
   <button class="btn" onclick="startDrill('${L.id}',-1)">🏁 ${gSec?'本节':'本课'}综合练习（${_pts.length}个语法点混合）</button>
@@ -921,7 +1069,7 @@ function showDrillQ(){
   if(q.audio)setTimeout(()=>speak(q.audio,1),250);
 }
 function answerDrill(el,oi){
-  const q=drill.qs[drill.i], ok=oi===q.ans; if(ok)drill.score++;
+  const q=drill.qs[drill.i], ok=oi===q.ans; if(ok)drill.score++; else logWrong({from:'语法训练',prompt:q.prompt,correct:q.opts[q.ans],exp:q.exp});
   el.parentElement.querySelectorAll('.opt').forEach((b,bi)=>{b.disabled=true; if(bi===q.ans)b.classList.add('right');}); if(!ok)el.classList.add('wrong');
   $('drillExp').innerHTML=`<p class="${ok?'ok':'bad'}">${ok?'🎉 对啦！':'😊 正确答案已标绿'}</p><p class="muted">解析：${q.exp}</p><button class="btn pink" onclick="nextDrill()">${drill.i+1>=drill.qs.length?'看成绩 →':'下一题 →'}</button>`;
 }
@@ -941,7 +1089,7 @@ function getBankQ(src){if(src==='fixed')return BANK[Math.floor(Math.random()*BAN
 function showBankQ(q){bankCur=q;$('bMeta').textContent=exam?`小测第 ${exam.i+1}/10 题 · 已对 ${exam.score} 题`:`题型：${q.type} · 固定题 ${BANK.length} + 动态题（词汇×句子随机组合）`;
  $('bankQ').innerHTML=`<div class="qcard"><b>${q.prompt}</b>${q.audio&&q.type.includes('听力')?`<div class="controls"><button class="btn" onclick="speak(bankCur.audio,1)">🔊 播放听力</button><button class="btn soft" onclick="speak(bankCur.audio,0.65)">🐢 慢速</button></div>`:''}${q.audio&&!q.type.includes('听力')?`<div class="controls"><button class="btn soft" onclick="speak(bankCur.audio,0.9)">🔊 读一下题目词</button></div>`:''}<div>${q.opts.map((o,i)=>`<button class="opt" onclick="answerBank(this,${i})">${o}</button>`).join('')}</div><div id="bankExp"></div></div>`;
  if(q.type.includes('听力'))setTimeout(()=>speak(q.audio,1),250);}
-function answerBank(el,i){let q=bankCur,ok=i===q.ans;el.parentElement.querySelectorAll('.opt').forEach((b,bi)=>{b.disabled=true;if(bi===q.ans)b.classList.add('right');});if(!ok)el.classList.add('wrong');
+function answerBank(el,i){let q=bankCur,ok=i===q.ans;if(!ok)logWrong({from:'题库·'+(q.type||''),prompt:q.prompt,correct:q.opts[q.ans],exp:q.exp});el.parentElement.querySelectorAll('.opt').forEach((b,bi)=>{b.disabled=true;if(bi===q.ans)b.classList.add('right');});if(!ok)el.classList.add('wrong');
  $('bankExp').innerHTML=`<p class="${ok?'ok':'bad'}">${ok?'🎉 回答正确！':'😊 正确答案已标绿'}</p><p class="muted">解析：${q.exp}</p><div class="controls">${exam?'<button class="btn pink" onclick="examNext()">下一题 →</button>':'<button class="btn" onclick="nextBankQ()">再来一题 →</button>'}</div>`;
  if(exam){if(ok)exam.score++;exam.answered=true;}}
 function nextBankQ(){exam=null;$('bBar').style.width='0%';showBankQ(getBankQ($('bankSrc').value));}
@@ -958,15 +1106,342 @@ function newQuiz(){if(Math.random()<0.5){let s=S[Math.floor(Math.random()*S.leng
  $('qOpts').innerHTML=opts.map(o=>`<button class="opt" onclick="answerQ(this,'${o.replace(/'/g,"\\'")}')">${o}</button>`).join('');setTimeout(()=>speak(quiz.a,1),300);}
 function replayQ(){if(quiz)speak(quiz.a,1);}
 function revealQ(){if(quiz)$('qReveal').textContent=quiz.a;}
-function answerQ(el,c){quizTotal++;let ok=c===quiz.ans;if(ok)quizScore++;localStorage.setItem('quizScore',quizScore);localStorage.setItem('quizTotal',quizTotal);document.querySelectorAll('#qOpts .opt').forEach(b=>{if(b.textContent===quiz.ans)b.classList.add('right');b.disabled=true;});el.classList.add(ok?'right':'wrong');$('qResult').innerHTML=ok?'<span class="ok">🎉 对啦！</span>':`<span class="bad">答案：${quiz.ans}</span>`;$('qReveal').textContent=quiz.a;stats();}
+function answerQ(el,c){quizTotal++;let ok=c===quiz.ans;if(!ok)logWrong({from:'听力挑战',prompt:'听音选义：'+quiz.a,correct:quiz.ans,exp:'原文：'+quiz.a});if(ok)quizScore++;localStorage.setItem('quizScore',quizScore);localStorage.setItem('quizTotal',quizTotal);document.querySelectorAll('#qOpts .opt').forEach(b=>{if(b.textContent===quiz.ans)b.classList.add('right');b.disabled=true;});el.classList.add(ok?'right':'wrong');$('qResult').innerHTML=ok?'<span class="ok">🎉 对啦！</span>':`<span class="bad">答案：${quiz.ans}</span>`;$('qReveal').textContent=quiz.a;stats();}
 // 闪卡
 let flash=V[0],flipped=false;
-function renderFlash(){$('flashCard').innerHTML=flipped?`<div><div class="fk">${flash[0]}</div><div style="font-size:20px;margin-top:8px">${flash[3]} · ${flash[1]}</div><div class="muted">${flash[13]}<br>${flash[14]}</div></div>`:`<div><div class="fk">${flash[0]}</div><div class="muted">先出声读，再点卡片翻面</div></div>`;$('flashMeta').textContent=`${flash[4]} ${flash[5]} · ${flash[6]} · ${flash[2]}`;}
+function renderFlash(){$('flashCard').innerHTML=flipped?`<div><div class="fk">${flash[0]}</div><div style="font-size:20px;margin-top:8px">${flash[3]} · ${flash[1]}</div><div class="muted">${flash[13]}<br>${flash[14]}</div></div>`:`<div><div class="fk">${flash[0]}</div><div class="muted">先出声读，再点卡片翻面</div></div>`;$('flashMeta').textContent=`${secLabel(flash)} · ${flash[2]} · ${masteryLabel(flash[0])}`;const now=Date.now();const dr=V.filter(v=>{const m=mastery[v[0]];return m&&m.due<=now;}).length;const fr=V.filter(v=>!mastery[v[0]]).length;const md=V.filter(v=>{const m=mastery[v[0]];return m&&m.box>=3;}).length;if($('flashQueue'))$('flashQueue').textContent=`待复习 ${dr} 个 · 未学新词 ${fr} 个 · 已掌握(3盒+) ${md} 个`;stats();}
+function gradeFlash(level){markWord(flash[0],level);nextFlash();}
 function flipCard(){flipped=!flipped;renderFlash();if(flipped)speak(flash[13],0.9);}
-function nextFlash(){flash=V[Math.floor(Math.random()*V.length)];flipped=false;renderFlash();}
+function nextFlash(){const now=Date.now();const dueR=V.filter(v=>{const m=mastery[v[0]];return m&&m.due<=now;});const fresh=V.filter(v=>!mastery[v[0]]);const pool=dueR.length?dueR:(fresh.length?fresh:V);let nx=pool[Math.floor(Math.random()*pool.length)];if(pool.length>1&&nx===flash)nx=pool[(pool.indexOf(nx)+1)%pool.length];flash=nx;flipped=false;renderFlash();}
+
+// ================= 情景对话（每课4节，每节1段，只用本节及以前学过的词为主） =================
+const DLG_ALL=[];
+function DLG(lesson,sec,turns){DLG_ALL.push({lesson:lesson,sec:sec,turns:turns});}
+DLG('Y01',1,[['A','안녕하십니까? 저는 왕웨이입니다.','您好，我是王伟。'],['B','안녕하십니까? 저는 리에입니다.','您好，我是理惠。'],['A','이름이 무엇입니까?','你叫什么名字？'],['B','제 이름은 리에입니다.','我的名字是理惠。']]);
+DLG('Y01',2,[['A','어느 나라 사람입니까?','你是哪国人？'],['B','중국 사람입니다. 중국에서 왔습니다.','我是中国人，从中国来。'],['A','그렇습니까? 저는 한국 사람입니다.','是吗？我是韩国人。'],['B','네, 반갑습니다.','嗯，很高兴认识你。']]);
+DLG('Y01',3,[['A','직업이 무엇입니까?','你是做什么工作的？'],['B','저는 대학생입니다. 회사원이 아닙니다.','我是大学生，不是公司职员。'],['A','저는 기자입니다.','我是记者。'],['B','아, 그렇습니까?','啊，是吗？']]);
+DLG('Y01',4,[['A','처음 뵙겠습니다. 저는 왕웨이입니다.','初次见面，我是王伟。'],['B','처음 뵙겠습니다. 리에입니다.','初次见面，我是理惠。'],['A','반갑습니다.','很高兴认识你。'],['B','저도 반갑습니다.','我也很高兴。']]);
+DLG('Y02',1,[['A','이것은 교과서입니까?','这是课本吗？'],['B','네, 교과서입니다.','是的，是课本。'],['A','저것은 무엇입니까?','那是什么？'],['B','저것은 사전입니다.','那是词典。']]);
+DLG('Y02',2,[['A','지도도 있어요?','也有地图吗？'],['B','네, 있어요.','有。'],['A','의자도 있어요?','也有椅子吗？'],['B','아니요, 의자는 없어요.','不，没有椅子。']]);
+DLG('Y02',3,[['A','은행이 어디에 있어요?','银行在哪里？'],['B','도서관 옆에 있어요.','在图书馆旁边。'],['A','우체국은 어디에 있어요?','邮局在哪里？'],['B','학교 앞에 있어요.','在学校前面。']]);
+DLG('Y02',4,[['A','집이 어디예요?','你家在哪里？'],['B','역 근처에 있어요.','在车站附近。'],['A','공원도 근처에 있어요?','公园也在附近吗？'],['B','네, 집 근처에 공원이 있어요.','是的，家附近有公园。']]);
+DLG('Y03',1,[['A','무엇을 봐요?','你在看什么？'],['B','가족 사진을 봐요.','我在看全家福。'],['A','자주 봐요?','经常看吗？'],['B','네, 가끔 친구 사진도 봐요.','嗯，偶尔也看朋友的照片。']]);
+DLG('Y03',2,[['A','부모님은 어디에 계세요?','你父母在哪里？'],['B','고향에 계세요.','在家乡。'],['A','가족은 몇 명이에요?','家里有几口人？'],['B','모두 네 명이에요.','一共四口人。']]);
+DLG('Y03',3,[['A','고향은 어때요?','家乡怎么样？'],['B','공기가 좋고 조용해요.','空气好，又安静。'],['A','깨끗해요?','干净吗？'],['B','네, 깨끗하고 예뻐요.','嗯，又干净又漂亮。']]);
+DLG('Y03',4,[['A','대학교에서 무엇을 공부해요?','你在大学学什么？'],['B','경제학을 공부해요.','我学经济学。'],['A','좋아해요?','喜欢吗？'],['B','네, 좋아해요.','嗯，喜欢。']]);
+DLG('Y04',1,[['A','식당에 같이 갈까요?','一起去餐馆吗？'],['B','네, 그럽시다.','好，就这么办。'],['A','한식집에 가요?','去韩餐馆吗？'],['B','네, 한식집이 좋아요.','好，我喜欢韩餐馆。']]);
+DLG('Y04',2,[['A','무슨 음식을 좋아해요?','你喜欢什么食物？'],['B','한식을 좋아해요.','我喜欢韩餐。'],['A','맵고 맛있어요?','又辣又好吃吗？'],['B','네, 조금 맵고 맛있어요.','嗯，有点辣，很好吃。']]);
+DLG('Y04',3,[['A','무엇을 먹고 싶어요?','你想吃什么？'],['B','불고기를 먹고 싶어요.','我想吃烤肉。'],['A','냉면도 먹고 싶어요?','也想吃冷面吗？'],['B','네, 냉면도 먹고 싶어요.','嗯，也想吃冷面。']]);
+DLG('Y04',4,[['A','여기요! 물 한 잔 주세요.','服务员！请给一杯水。'],['B','네, 여기 있어요.','好的，给您。'],['A','커피도 한 잔 주세요.','再给一杯咖啡。'],['B','네, 드릴게요.','好的，给您。']]);
+DLG('Y05',1,[['A','지금 몇 시예요?','现在几点？'],['B','일곱 시 반이에요.','七点半。'],['A','학교에 가요?','去学校吗？'],['B','네, 여덟 시에 학교에 가요.','嗯，八点去学校。']]);
+DLG('Y05',2,[['A','오늘이 몇 월 며칠이에요?','今天是几月几号？'],['B','십월 팔일이에요.','十月八号。'],['A','목요일이지요?','是星期四吧？'],['B','아니요, 금요일이에요.','不，是星期五。']]);
+DLG('Y05',3,[['A','아침에 몇 시에 일어나요?','你早上几点起床？'],['B','일곱 시 반에 일어나요.','七点半起床。'],['A','아침을 먹고 가요?','吃完早饭再去吗？'],['B','네, 아침을 먹고 학교에 가요.','嗯，吃完早饭去学校。']]);
+DLG('Y05',4,[['A','어제 무엇을 했어요?','你昨天做什么了？'],['B','친구를 만났어요.','见了朋友。'],['A','같이 공부했어요?','一起学习了吗？'],['B','아니요, 영화를 봤어요.','没有，看了电影。']]);
+DLG('Y06',1,[['A','선물을 사러 백화점에 갈까요?','去百货商店买礼物吗？'],['B','네, 그럽시다.','好，就这么办。'],['A','무엇을 살까요?','买什么呢？'],['B','장미꽃을 사고 싶어요.','我想买玫瑰花。']]);
+DLG('Y06',2,[['A','이 옷은 어때요?','这件衣服怎么样？'],['B','좋지만 조금 비싸요.','好是好，有点贵。'],['A','그럼 저것은 어때요?','那那件呢？'],['B','저것은 싸고 색이 예뻐요.','那件便宜，颜色也好看。']]);
+DLG('Y06',3,[['A','이 바지는 얼마예요?','这条裤子多少钱？'],['B','만 오천 원이에요.','一万五千韩元。'],['A','비싸요. 신발은 얼마예요?','有点贵。鞋多少钱？'],['B','신발은 삼만 원이에요.','鞋是三万韩元。']]);
+DLG('Y06',4,[['A','조금 비싸요. 깎아 주세요.','有点贵，请便宜点。'],['B','그럼 구천 원에 드릴게요.','那九千韩元给您吧。'],['A','감사합니다. 사고 싶어요.','谢谢，我想买。'],['B','네, 여기 있어요.','好的，给您。']]);
+DLG('Y07',1,[['A','실례합니다. 도서관이 어디예요?','劳驾，图书馆在哪里？'],['B','왼쪽으로 가세요.','请往左走。'],['A','멀어요?','远吗？'],['B','아니요, 가까워요.','不，很近。']]);
+DLG('Y07',2,[['A','여기서 학교까지 얼마나 걸려요?','从这里到学校要多久？'],['B','지하철로 사십 분 걸려요.','坐地铁要40分钟。'],['A','버스로는 얼마나 걸려요?','坐公交呢？'],['B','버스로 한 시간 걸려요.','坐公交要一个小时。']]);
+DLG('Y07',3,[['A','사람이 많아요.','人真多。'],['B','네, 조심하세요.','是啊，请小心。'],['A','다음 역에서 내려요?','下一站下车吗？'],['B','네, 다음 역에서 내려요.','嗯，下一站下。']]);
+DLG('Y07',4,[['A','기사님, 과일 가게 앞에 세워 주세요.','师傅，请停在水果店前面。'],['B','네, 세울게요.','好的，我停。'],['A','여기서 내릴게요.','我在这儿下车。'],['B','네, 조심하세요.','好的，请小心。']]);
+DLG('Y08',1,[['A','전화번호가 뭐예요?','你的电话号码是多少？'],['B','010-1234-5678이에요.','是 010-1234-5678。'],['A','다시 한 번 말씀해 주세요.','请再说一遍。'],['B','네, 010-1234-5678입니다.','好的，010-1234-5678。']]);
+DLG('Y08',2,[['A','여보세요? 정민철 씨 계세요?','喂？郑敏哲在吗？'],['B','아니요, 지금 없어요.','不在，现在不在。'],['A','그럼 이따가 다시 전화할게요.','那我过一会儿再打。'],['B','네, 전화해 주세요.','好的，请打过来吧。']]);
+DLG('Y08',3,[['A','미안해요. 오늘 늦을 것 같아요.','对不起，今天可能会晚。'],['B','괜찮아요. 몇 시에 와요?','没关系，几点来？'],['A','늦으면 전화할게요.','晚了的话我会打电话。'],['B','네, 기다릴게요.','好，我等你。']]);
+DLG('Y08',4,[['A','여보세요? 왕웨이 씨 좀 바꿔 주세요.','喂？请找一下王伟。'],['B','죄송해요. 지금 통화 중이에요.','不好意思，正在通话中。'],['A','그럼 이따가 다시 걸게요.','那我过一会儿再打。'],['B','네, 전화해 주세요.','好的，请打过来吧。']]);
+DLG('Y09',1,[['A','어느 계절을 좋아해요?','你喜欢哪个季节？'],['B','겨울을 좋아해요.','我喜欢冬天。'],['A','왜 겨울을 좋아해요?','为什么喜欢冬天？'],['B','스키를 탈 수 있어요.','因为能滑雪。']]);
+DLG('Y09',2,[['A','오늘 날씨가 어때요?','今天天气怎么样？'],['B','조금 흐려요. 구름이 많아요.','有点阴，云很多。'],['A','비가 와요?','下雨吗？'],['B','아니요, 비가 오지 않아요.','不，不下雨。']]);
+DLG('Y09',3,[['A','내일 날씨는 어때요?','明天天气怎么样？'],['B','오늘보다 따뜻할 것 같아요.','好像比今天暖和。'],['A','그럼 산책할까요?','那去散步吗？'],['B','네, 그럽시다.','好呀，就这么办。']]);
+DLG('Y09',4,[['A','저기에서 사람들이 무엇을 해요?','那边的人们在做什么？'],['B','운동을 하고 있어요.','在锻炼呢。'],['A','날씨가 참 좋군요.','天气真好啊。'],['B','네, 등산하는 사람도 많아요.','是啊，登山的人也很多。']]);
+DLG('Y10',1,[['A','방학에 무엇을 할 거예요?','假期打算做什么？'],['B','설악산에 갈 거예요.','打算去雪岳山。'],['A','사진도 찍을 거예요?','也会拍照吗？'],['B','네, 많이 찍을 거예요.','嗯，会拍很多。']]);
+DLG('Y10',2,[['A','시간이 있을 때 무엇을 해요?','有时间的时候做什么？'],['B','여행을 가요.','去旅行。'],['A','혼자 가요?','一个人去吗？'],['B','아니요, 친구와 같이 가요.','不，和朋友一起去。']]);
+DLG('Y10',3,[['A','영화를 자주 봐요?','经常看电影吗？'],['B','아니요, 극장에 자주 못 가요.','不，不能经常去电影院。'],['A','왜요?','为什么？'],['B','할 일이 많아요.','要做的事太多了。']]);
+DLG('Y10',4,[['A','주말에 무엇을 했어요?','周末做什么了？'],['B','산책을 하고 집에서 쉬었어요.','散了步，然后在家休息了。'],['A','영화도 봤어요?','也看电影了吗？'],['B','아니요, 책을 읽고 쉬었어요.','没有，读了书休息了。']]);
+let _dlgTimer=null;
+function stopDlg(){if(_dlgTimer){clearTimeout(_dlgTimer);_dlgTimer=null;}}
+function playDialogue(gi){
+  stopDlg(); const d=DLG_ALL[gi]; if(!d)return; let i=0;
+  (function step(){
+    if(i>=d.turns.length)return;
+    const t=d.turns[i]; i++;
+    speak(t[1], t[0]==='A'?1:0.92);
+    _dlgTimer=setTimeout(step, Math.max(1700, t[1].length*240));
+  })();
+}
+function dlgWordClick(ev,anchor,gi,ti,wi){
+  if(ev)ev.stopPropagation();
+  const d=DLG_ALL[gi]; if(!d)return; const t=d.turns[ti];
+  const raw=(t[1]||'').split(/\s+/).filter(Boolean)[wi]; if(!raw)return;
+  showWordBubble(anchor, raw, {kr:t[1], cn:t[2], lessonId:d.lesson, sec:d.sec});
+}
+function renderDialogues(){
+  const box=$('dlgBox'); if(!box)return;
+  if(!sLessonId){box.innerHTML=''; return;}
+  const L=lessonById(sLessonId);
+  const list=DLG_ALL.map((d,gi)=>({d:d,gi:gi})).filter(x=>x.d.lesson===sLessonId&&(!sSec||x.d.sec===sSec));
+  if(!list.length){box.innerHTML=''; return;}
+  box.innerHTML=list.map(x=>{
+    const d=x.d, title=L&&L.sections?L.sections[d.sec-1].title:'';
+    const turns=d.turns.map((t,ti)=>{
+      const segs=t[1].split(/\s+/).filter(Boolean).map((tok,wi)=>`<button class="seg" onclick="dlgWordClick(event,this,${x.gi},${ti},${wi})">${tok}</button>`).join(' ');
+      return `<div style="margin:9px 0"><button class="tag" style="cursor:pointer" onclick="speak('${t[1]}',${t[0]==='A'?1:0.92})">${t[0]} 🔊</button> ${segs}<div class="muted" style="margin-left:6px">${t[2]}</div></div>`;
+    }).join('');
+    return `<div style="background:#F2FAFF;border:2px solid #BFE3FF;border-radius:20px;padding:14px 16px;margin:12px 0"><b style="color:#174A78">🎭 情景对话 · 第${d.sec}节 ${title}</b> <span class="muted">（点角色=读这一句，点词=看讲解）</span><div class="controls" style="margin:8px 0 2px"><button class="btn" onclick="playDialogue(${x.gi})">▶ 播放整段对话</button><button class="btn soft" onclick="startRole(${x.gi})">🎭 我读B句</button><button class="btn soft" onclick="startCloze(${x.gi})">📝 对话填空</button><button class="btn soft" onclick="stopDlg()">⏹ 停止</button></div>${turns}</div>`;
+  }).join('');
+}
+// ================= 间隔复习（掌握度）+ 生词本 + 错题本 =================
+let mastery={}; try{mastery=JSON.parse(localStorage.getItem('wordMastery')||'{}');}catch(e){mastery={};}
+let myWords=[]; try{myWords=JSON.parse(localStorage.getItem('myWords')||'[]');}catch(e){myWords=[];}
+let wrongBook=[]; try{wrongBook=JSON.parse(localStorage.getItem('wrongBook')||'[]');}catch(e){wrongBook=[];}
+const BOX_DAYS=[0,1,2,4,7,15,30];
+function saveMastery(){try{localStorage.setItem('wordMastery',JSON.stringify(mastery));}catch(e){}}
+function saveMyWords(){try{localStorage.setItem('myWords',JSON.stringify(myWords));}catch(e){}}
+function saveWrong(){try{localStorage.setItem('wrongBook',JSON.stringify(wrongBook));}catch(e){} stats();}
+function markWord(kr,level){
+  if(!kr)return; const now=Date.now();
+  let m=mastery[kr]||{box:0,due:0,n:0};
+  if(level===0){m.box=0; m.due=now+10*60000;}
+  else if(level===1){m.due=now+(m.box<=0?6*3600000:86400000);}
+  else{m.box=Math.min(5,(m.box||0)+1); m.due=now+(BOX_DAYS[m.box]||7)*86400000;}
+  m.n=(m.n||0)+1; mastery[kr]=m; saveMastery(); stats();
+}
+function masteryLabel(kr){const m=mastery[kr]; if(!m)return '新词 · 还没复习过'; const dueTxt=m.due<=Date.now()?'现在到期，该复习了':'下次复习：'+new Date(m.due).toLocaleDateString(); return '第'+(m.box+1)+'盒 · 已复习'+m.n+'次 · '+dueTxt;}
+function dueWordCount(){const now=Date.now(); return V.filter(v=>{const m=mastery[v[0]]; return m&&m.due<=now;}).length;}
+function addMyWord(kr){
+  kr=(kr||'').trim(); if(!kr)return;
+  if(myWords.includes(kr)){toast('「'+kr+'」已经在生词本里了'); return;}
+  myWords.push(kr); saveMyWords(); toast('⭐ 已把「'+kr+'」加入生词本（顶部 📕 复习本 里看）');
+}
+function removeMyWord(kr){myWords=myWords.filter(x=>x!==kr); saveMyWords(); renderNote();}
+function logWrong(e){
+  if(!e||!e.prompt)return;
+  wrongBook=wrongBook.filter(x=>x.prompt!==e.prompt);
+  e.ts=Date.now(); wrongBook.unshift(e); wrongBook=wrongBook.slice(0,200); saveWrong();
+}
+function clearWrong(){wrongBook=[]; saveWrong(); renderNote();}
+function renderNote(){
+  const wBox=$('myWordList'), qBox=$('wrongList'); if(!wBox||!qBox)return;
+  if($('noteMeta'))$('noteMeta').textContent='生词 '+myWords.length+' 个 · 错题 '+wrongBook.length+' 道（错题答错时自动收集）';
+  wBox.innerHTML=myWords.length?myWords.map(kr=>{
+    const v=V.find(x=>x[0]===kr);
+    return `<div class="qcard"><b style="font-size:18px">${kr}</b> ${v?('<span class="tag">'+v[2]+'</span> <b>'+v[3]+'</b> <span class="muted">'+secLabel(v)+'</span>'):'<span class="muted">（从句子气泡收藏的词）</span>'} <span class="tag">${masteryLabel(kr)}</span><div class="controls" style="margin:6px 0 0"><button class="btn" onclick="speak('${kr}',0.9)">🔊 范读</button><button class="btn soft" onclick="removeMyWord('${kr}')">移除</button></div></div>`;
+  }).join(''):'<p class="muted">还没有生词。在句子/对话里点一个词，气泡里点「⭐ 生词本」就能收藏；词汇详情里也可以收藏。</p>';
+  qBox.innerHTML=wrongBook.length?wrongBook.map(e=>`<div class="qcard"><span class="tag">${e.from||'错题'}</span> <b>${e.prompt||''}</b><div class="muted">正确答案：<b>${e.correct||''}</b>${e.exp?'<br>解析：'+e.exp:''}</div><div class="muted">${e.ts?new Date(e.ts).toLocaleDateString():''}</div></div>`).join(''):'<p class="muted">还没有错题。去语法训练或题库做题，答错的题会自动出现在这里。</p>';
+  stats();
+}
+
 // 初始化
 renderSBookChips(); populateSLessons(); updateSPickerLabel(); populateVLessons();
-renderCats();renderSList();renderSentence();renderVocab();renderGrammar();renderBankList();showBankQ(getBankQ('mix'));renderFlash();newQuiz();stats();if($('ttsModeSel'))$('ttsModeSel').value=ttsMode;
+
+// ================= 学习进度（40节打卡） =================
+let secProgress={}; try{secProgress=JSON.parse(localStorage.getItem('secProgress')||'{}');}catch(e){secProgress={};}
+function saveSecProgress(){try{localStorage.setItem('secProgress',JSON.stringify(secProgress));}catch(e){}}
+function renderProgress(){
+  const box=$('progressGrid'); if(!box)return;
+  let doneN=0;
+  box.innerHTML=LESSONS.map(L=>{
+    const chips=L.sections.map(sc=>{
+      const pr=secProgress[L.id+'-'+sc.n]; if(pr)doneN++;
+      return `<button class="chip ${pr?'on':''}" onclick="gotoSection('${L.id}',${sc.n})">${pr?'✓ ':''}第${sc.n}节 ${sc.title}${pr?'（'+pr.score+'/'+pr.total+'）':''}</button>`;
+    }).join('');
+    return `<div style="margin:9px 0"><b style="color:#174A78">第${L.no}课 ${L.title}</b><div class="chips" style="margin-top:4px">${chips}</div></div>`;
+  }).join('');
+  if($('progressMeta'))$('progressMeta').textContent='已完成 '+doneN+' / 40 节'+(doneN>=40?'，第一册全部学完，太棒了！':'');
+  if($('progressBar'))$('progressBar').style.width=(doneN/40*100)+'%';
+}
+function gotoSection(lid,sec){
+  go('sent'); sBookFilter=''; sLessonId=lid; sSec=sec;
+  renderSBookChips(); populateSLessons(); updateSPickerLabel(); refreshSFirst(); toggleSPicker(true);
+}
+// ================= 本节自测（词汇+句子+语法混合8题，60%打卡） =================
+let secQuiz=null;
+function startSectionQuiz(){
+  if(!sLessonId||!sSec){toast('先选好课时和具体的小节，再点「本节自测」'); return;}
+  const L=lessonById(sLessonId), sec=sSec;
+  const vs=vocabOfLessonSec(L.id,sec), vsL=vocabOfLesson(L.id);
+  const ss=shuffle(sentsOfLessonSec(L.id,sec).slice()), ssL=sentsOfLesson(L.id);
+  const gs=L.grammar.filter(g=>(g.sec||1)===sec);
+  let qs=[];
+  shuffle(gs.slice()).slice(0,2).forEach(g=>qs.push({prompt:g.dq,opts:g.opts.slice(),ans:g.ans,exp:g.exp,type:'语法 · '+g.name,audio:''}));
+  shuffle(vs.slice()).slice(0,2).forEach(v=>qs.push(makeMC('「'+v[0]+'」('+ (v[1]||'') +') 的中文是？', v[3], vsL.map(x=>x[3]), v[0]+' = '+v[3], '', '看词选义')));
+  shuffle(vs.slice()).slice(0,1).forEach(v=>qs.push(makeMC('听单词，选中文', v[3], vsL.map(x=>x[3]), '原文：'+v[0]+' = '+v[3], v[0], '听词选义')));
+  ss.slice(0,2).forEach(x=>qs.push(makeMC('听句子，选中文', x.cn, ssL.map(y=>y.cn), '原文：'+x.kr, x.kr, '听句选义')));
+  ss.slice(2,3).forEach(x=>qs.push(makeMC('「'+x.kr+'」的意思是？', x.cn, ssL.map(y=>y.cn), x.kr+' = '+x.cn, '', '看句选义')));
+  qs=shuffle(qs).slice(0,8);
+  if(qs.length<4){toast('这一节内容还太少，换一节试试'); return;}
+  secQuiz={qs:qs,i:0,score:0,L:L,sec:sec};
+  showSecQ();
+}
+function showSecQ(){
+  const box=$('secQuizBox'); if(!box||!secQuiz)return;
+  const q=secQuiz.qs[secQuiz.i], L=secQuiz.L;
+  box.innerHTML=`<div class="qcard" style="border-color:#BFE3FF;background:#F7FCFF"><div class="muted">📝 第${L.no}课第${secQuiz.sec}节自测 · 第 ${secQuiz.i+1}/${secQuiz.qs.length} 题 · 已对 ${secQuiz.score} · ${q.type||''}</div><b style="font-size:17px">${q.prompt}</b>${q.audio?`<div class="controls"><button class="btn" onclick="speak(secQuiz.qs[secQuiz.i].audio,1)">🔊 播放</button><button class="btn soft" onclick="speak(secQuiz.qs[secQuiz.i].audio,0.65)">🐢 慢速</button></div>`:''}<div>${q.opts.map((o,oi)=>`<button class="opt" onclick="answerSecQ(this,${oi})">${o}</button>`).join('')}</div><div id="secExp"></div></div>`;
+  box.scrollIntoView({behavior:'smooth',block:'center'});
+  if(q.audio)setTimeout(()=>speak(q.audio,1),250);
+}
+function answerSecQ(el,oi){
+  const q=secQuiz.qs[secQuiz.i], ok=oi===q.ans;
+  if(ok)secQuiz.score++; else logWrong({from:'本节自测',prompt:q.prompt,correct:q.opts[q.ans],exp:q.exp});
+  el.parentElement.querySelectorAll('.opt').forEach((b,bi)=>{b.disabled=true; if(bi===q.ans)b.classList.add('right');});
+  if(!ok)el.classList.add('wrong');
+  $('secExp').innerHTML=`<p class="${ok?'ok':'bad'}">${ok?'🎉 对啦！':'😊 正确答案已标绿'}</p><p class="muted">${q.exp||''}</p><button class="btn pink" onclick="nextSecQ()">${secQuiz.i+1>=secQuiz.qs.length?'看成绩 →':'下一题 →'}</button>`;
+}
+function nextSecQ(){
+  secQuiz.i++;
+  if(secQuiz.i>=secQuiz.qs.length){
+    const total=secQuiz.qs.length, sc=secQuiz.score, pass=sc>=Math.ceil(total*0.6);
+    if(pass){secProgress[secQuiz.L.id+'-'+secQuiz.sec]={score:sc,total:total,ts:Date.now()}; saveSecProgress(); renderProgress();}
+    $('secQuizBox').innerHTML=`<div class="qcard" style="text-align:center"><h3>${pass?'🎉 这一节过关！':'再复习一下吧'}</h3><p style="font-size:22px"><b>${sc} / ${total}</b></p><p class="muted">${pass?'第'+secQuiz.L.no+'课第'+secQuiz.sec+'节已打卡 ✓（首页进度条能看到）':'答对 '+Math.ceil(total*0.6)+' 题以上就能打卡。错题已收进错题本，先复习再测。'}</p><button class="btn" onclick="startSectionQuiz()">再测一次</button> <button class="btn soft" onclick="$('secQuizBox').innerHTML=''">收起</button></div>`;
+    secQuiz=null; return;
+  }
+  showSecQ();
+}
+// ================= 对话角色扮演（系统读A，你读B） =================
+let rolePlay=null;
+function startRole(gi){rolePlay={gi:gi,i:0,show:false}; showRole();}
+function showRole(){
+  const box=$('dlgBox'); if(!box||!rolePlay)return;
+  const d=DLG_ALL[rolePlay.gi], L=lessonById(d.lesson);
+  if(rolePlay.i>=d.turns.length){
+    box.innerHTML=`<div style="background:#F2FAFF;border:2px solid #BFE3FF;border-radius:20px;padding:16px;margin:12px 0;text-align:center"><h3>🎭 角色扮演完成！</h3><p class="muted">第${L?L.no:''}课第${d.sec}节对话，你已经把 B 的台词都读了一遍。</p><button class="btn" onclick="renderDialogues()">↩ 回对话列表</button> <button class="btn soft" onclick="startRole(${rolePlay.gi})">再来一遍</button></div>`;
+    rolePlay=null; return;
+  }
+  const t=d.turns[rolePlay.i], isB=t[0]==='B';
+  let body='';
+  if(!isB){
+    body=`<div style="margin:10px 0"><span class="tag">A（系统）</span> <b style="font-size:18px">${t[1]}</b><div class="muted">${t[2]}</div></div><button class="btn" onclick="roleNext(false)">听完了，下一句 →</button>`;
+    setTimeout(()=>speak(t[1],1),300);
+  }else if(!rolePlay.show){
+    body=`<div style="margin:10px 0"><span class="tag pink">B（你来读）</span> <span style="font-size:18px">🙈 先自己出声读，再看原文对一下</span><div class="muted">${t[2]}</div></div><div class="controls"><button class="btn soft" onclick="roleShow()">👀 看原文</button><button class="btn soft" onclick="speak(rolePlay?DLG_ALL[rolePlay.gi].turns[rolePlay.i][1]:'',0.9)">🔊 听一遍</button><button class="btn" onclick="roleNext(true)">✓ 读完了，下一句</button></div>`;
+  }else{
+    body=`<div style="margin:10px 0"><span class="tag pink">B（你来读）</span> <b style="font-size:18px">${t[1]}</b><div class="muted">${t[2]}</div></div><div class="controls"><button class="btn soft" onclick="speak(rolePlay?DLG_ALL[rolePlay.gi].turns[rolePlay.i][1]:'',0.9)">🔊 听一遍</button><button class="btn" onclick="roleNext(true)">✓ 读完了，下一句</button></div>`;
+  }
+  box.innerHTML=`<div style="background:#FFF7FB;border:2px solid #FFD0E2;border-radius:20px;padding:14px 16px;margin:12px 0"><b style="color:#174A78">🎭 角色扮演 · 第${d.sec}节（第 ${rolePlay.i+1}/${d.turns.length} 句）</b> <button class="btn soft" style="padding:4px 10px" onclick="renderDialogues()">退出</button>${body}</div>`;
+}
+function roleShow(){if(rolePlay){rolePlay.show=true; showRole();}}
+function roleNext(){if(rolePlay){rolePlay.i++; rolePlay.show=false; showRole();}}
+// ================= 对话填空 =================
+let clozeQ=null;
+function startCloze(gi){
+  const d=DLG_ALL[gi]; if(!d)return;
+  const vs=vocabOfLessonSec(d.lesson,d.sec), vsL=vocabOfLesson(d.lesson);
+  let qs=[];
+  d.turns.forEach(t=>{
+    const toks=t[1].split(/\s+/).filter(Boolean).map(x=>x.replace(/[,.?!]/g,''));
+    const cand=toks.filter(x=>x.length>=2&&V.some(v=>v[0]===x||(v[0].length>=2&&x.startsWith(v[0]))));
+    if(cand.length)qs.push({turn:t, word:cand.sort((a,b)=>b.length-a.length)[0]});
+  });
+  qs=qs.slice(0,4);
+  if(!qs.length){toast('这段对话暂时没有可挖空的词'); return;}
+  clozeQ={qs:qs,i:0,score:0,gi:gi,vs:vs.length>=4?vs:vsL};
+  showCloze();
+}
+function showCloze(){
+  const box=$('dlgBox'); if(!box||!clozeQ)return;
+  const q=clozeQ.qs[clozeQ.i], d=DLG_ALL[clozeQ.gi];
+  const blanked=q.turn[1].replace(q.word,'＿＿');
+  const distract=shuffle(clozeQ.vs.map(v=>v[0]).filter(x=>x!==q.word)).slice(0,3);
+  const opts=shuffle([q.word].concat(distract));
+  clozeQ.ans=opts.indexOf(q.word);
+  box.innerHTML=`<div style="background:#F7FCFF;border:2px solid #BFE3FF;border-radius:20px;padding:14px 16px;margin:12px 0"><b style="color:#174A78">📝 对话填空 · 第${d.sec}节（第 ${clozeQ.i+1}/${clozeQ.qs.length} 题 · 已对 ${clozeQ.score}）</b> <button class="btn soft" style="padding:4px 10px" onclick="renderDialogues()">退出</button><div style="margin:10px 0"><span class="tag">${q.turn[0]}</span> <b style="font-size:18px">${blanked}</b><div class="muted">${q.turn[2]}</div></div><div>${opts.map((o,oi)=>`<button class="opt" onclick="answerCloze(this,${oi})">${o}</button>`).join('')}</div><div id="clozeExp"></div></div>`;
+}
+function answerCloze(el,oi){
+  const q=clozeQ.qs[clozeQ.i], ok=oi===clozeQ.ans;
+  if(ok)clozeQ.score++; else logWrong({from:'对话填空',prompt:q.turn[1].replace(q.word,'＿＿'),correct:q.word,exp:'完整句：'+q.turn[1]+'（'+q.turn[2]+'）'});
+  el.parentElement.querySelectorAll('.opt').forEach((b,bi)=>{b.disabled=true; if(bi===clozeQ.ans)b.classList.add('right');});
+  if(!ok)el.classList.add('wrong');
+  $('clozeExp').innerHTML=`<p class="${ok?'ok':'bad'}">${ok?'🎉 对啦！':'😊 正确答案已标绿'}</p><p class="muted">完整句：${q.turn[1]}</p><button class="btn pink" onclick="nextCloze()">${clozeQ.i+1>=clozeQ.qs.length?'看成绩 →':'下一题 →'}</button>`;
+}
+function nextCloze(){
+  clozeQ.i++;
+  if(clozeQ.i>=clozeQ.qs.length){
+    $('dlgBox').innerHTML=`<div style="background:#F2FAFF;border:2px solid #BFE3FF;border-radius:20px;padding:16px;margin:12px 0;text-align:center"><h3>📝 对话填空完成</h3><p style="font-size:22px"><b>${clozeQ.score} / ${clozeQ.qs.length}</b></p><button class="btn" onclick="renderDialogues()">↩ 回对话列表</button></div>`;
+    clozeQ=null; return;
+  }
+  showCloze();
+}
+// ================= 词汇拓展做实（同义词/反义词/搭配/相关词） =================
+const EXPAND={
+'이름':['성함（姓名称呼的敬称）','','이름이 무엇입니까？ 叫什么名字','성 姓'],'선생님':['교사（教师）','학생 学生','선생님 말씀 老师的话','교수 教授'],
+'학생':['대학생 大学生','선생님 老师','','학교 学校'],'친구':['동창（同学）','','친구를 만나다 见朋友','사람 人'],
+'학교':['대학교 大学','','학교에 가다 去学校 · 학교에서 공부하다 在学校学习','교실 教室'],'나라':['국가（国家）','','어느 나라 哪个国家','국적 国籍'],
+'사람':['분（位，敬称）','','한국 사람 韩国人','친구 朋友'],'회사원':['직장인（职员）','','회사에서 일하다 在公司上班','직업 职业'],
+'직업':['일 工作','','직업이 무엇입니까？ 做什么工作','회사원 公司职员'],'교과서':['참고서（参考书）','','교과서를 읽다 读课本','사전 词典'],
+'사전':['','','사전을 찾다 查词典','교과서 课本'],'가방':['','','가방을 사다 买包','지갑 钱包'],
+'돈':['현금（现金）','','돈이 있다 有钱 · 돈을 내다 付钱','카드 卡'],'이것':['이거（口语）','저것 那个','이것은 무엇입니까？ 这是什么','그것 那个'],
+'있다':['존재하다（存在）','없다 没有','집에 있다 在家','계시다 在（敬语）'],'없다':['','있다 有','시간이 없다 没时间','있다 有'],
+'많다':['','적다 少','사람이 많다 人多','적다 少'],'적다':['','많다 多','돈이 적다 钱少','많다 多'],
+'크다':['','작다 小','키가 크다 个子高','작다 小'],'작다':['','크다 大','소리가 작다 声音小','크다 大'],
+'좋다':['','나쁘다 不好','날씨가 좋다 天气好','나쁘다 不好'],'나쁘다':['','좋다 好','기분이 나쁘다 心情不好','좋다 好'],
+'은행':['','','은행에 가다 去银行','우체국 邮局'],'도서관':['','','도서관에서 공부하다 在图书馆学习','서점 书店'],
+'집':['댁（敬称）','','집에 가다 回家 · 집에서 쉬다 在家休息','가게 商店'],'근처':['주변（周围）','','역 근처 车站附近','앞 前面'],
+'가족':['식구（家人）','','가족 사진 全家福','부모님 父母'],'사진':['','','사진을 보다 看照片 · 사진을 찍다 拍照','가족 家人'],
+'일하다':['근무하다（工作）','쉬다 休息','회사에서 일하다 在公司工作','공부하다 学习'],'공부하다':['학습하다（学习）','놀다 玩','한국어를 공부하다 学韩语','일하다 工作'],
+'숙제':['과제（课题）','','숙제를 하다 做作业','수업 课'],'노래':['곡（首，歌曲量词）','','노래를 듣다 听歌 · 노래를 부르다 唱歌','음악 音乐'],
+'운동':['','','운동을 하다 做运动','산책 散步'],'이야기':['말 话','','이야기를 하다 聊天','대화 对话'],
+'산책':['','','산책을 하다 散步','운동 运动'],'아버지':['아빠（爸爸，口语）','어머니 母亲','','어머니 母亲'],
+'어머니':['엄마（妈妈，口语）','아버지 父亲','','아버지 父亲'],'고향':['','','고향에 가다 回老家','집 家'],
+'계시다':['','','집에 계시다 在家（敬）','있다 在'],'공기':['','','공기가 좋다 空气好','날씨 天气'],
+'조용하다':['','시끄럽다 吵闹','조용한 곳 安静的地方','시끄럽다 吵闹'],'예쁘다':['','','꽃이 예쁘다 花漂亮','아름답다 漂亮（风景）'],
+'깨끗하다':['','더럽다 脏','깨끗하게 청소하다 打扫干净','더럽다 脏'],'더럽다':['','깨끗하다 干净','','깨끗하다 干净'],
+'시끄럽다':['','조용하다 安静','','조용하다 安静'],'넓다':['','좁다 窄','방이 넓다 房间宽敞','좁다 窄'],
+'좁다':['','넓다 宽','','넓다 宽'],'대학교':['대학（大学，口语）','','대학교에 다니다 上大学','학교 学校'],
+'전공':['','','전공을 공부하다 学专业','경제학 经济学'],'같이':['함께（一起）','혼자 独自','친구와 같이 和朋友一起','혼자 独自'],
+'혼자':['','같이 一起','혼자 가다 独自去','같이 一起'],'나가다':['','들어오다 进来','밖에 나가다 到外面去','들어오다 进来'],
+'들어오다':['','나가다 出去','집에 들어오다 进家门','나가다 出去'],'한식집':['','','한식집에 가다 去韩餐馆','중국집 中餐馆'],
+'맛있다':['','맛없다 不好吃','정말 맛있다 真好吃','맛없다 不好吃'],'맛없다':['','맛있다 好吃','','맛있다 好吃'],
+'맵다':['','싱겁다 淡','매운 음식 辣的食物','싱겁다 淡'],'달다':['','쓰다 苦','달고 맛있다 又甜又好吃','시다 酸'],
+'시다':['','달다 甜','','짜다 咸'],'짜다':['','싱겁다 淡','','시다 酸'],'싱겁다':['','짜다 咸','','맵다 辣'],
+'불고기':['','','불고기를 먹다 吃烤肉','갈비 排骨'],'물':['생수（矿泉水）','','물을 마시다 喝水 · 물 한 잔 一杯水','커피 咖啡'],
+'커피':['','','커피를 마시다 喝咖啡 · 커피 한 잔 一杯咖啡','물 水'],'사과':['','','사과를 먹다 吃苹果','과일 水果'],
+'주다':['드리다 给（敬语）','받다 收到','선물을 주다 送礼物','드리다 给（敬语）'],'지금':['이제（现在）','아까 刚才','지금 몇 시예요？ 现在几点','어제 昨天'],
+'시간':['때 时候','','시간이 있다 有时间 · 시간이 없다 没时间','시계 钟表'],'오전':['아침 早上','오후 下午','오전 수업 上午的课','오후 下午'],
+'오후':['','오전 上午','오후 세 시 下午三点','오전 上午'],'아침':['','저녁 晚上','아침을 먹다 吃早饭','점심 午饭'],
+'저녁':['','아침 早上','저녁을 먹다 吃晚饭','아침 早上'],'점심':['','','점심을 먹다 吃午饭','아침 早饭'],
+'일어나다':['깨다 醒来','자다 睡觉','아침에 일어나다 早上起床','세수하다 洗脸'],'세수하다':['','','세수를 하다 洗脸','일어나다 起床'],
+'쉬다':['휴식하다（休息）','일하다 工作','집에서 쉬다 在家休息','자다 睡觉'],'마시다':['','먹다 吃','커피를 마시다 喝咖啡','먹다 吃'],
+'어제':['','내일 明天','어제 만났어요 昨天见过','내일 明天'],'내일':['','어제 昨天','내일 봐요 明天见','어제 昨天'],
+'선물':['','','선물을 주다 送礼物 · 선물을 받다 收到礼物','꽃다발 花束'],'과일':['','','과일을 먹다 吃水果','사과 苹果'],
+'싸다':['저렴하다（便宜）','비싸다 贵','싸고 좋다 又便宜又好','비싸다 贵'],'비싸다':['','싸다 便宜','조금 비싸다 有点贵','싸다 便宜'],
+'가깝다':['','멀다 远','역에서 가깝다 离车站近','멀다 远'],'멀다':['','가깝다 近','집에서 멀다 离家远','가깝다 近'],
+'길다':['','짧다 短','','짧다 短'],'짧다':['','길다 长','','길다 长'],
+'무겁다':['','가볍다 轻','가방이 무겁다 包很重','가볍다 轻'],'가볍다':['','무겁다 重','','무겁다 重'],
+'두껍다':['','얇다 薄','두꺼운 책 厚厚的书','얇다 薄'],'얇다':['','두껍다 厚','','두껍다 厚'],
+'신발':['','','신발을 신다 穿鞋 · 신발 한 켤레 一双鞋','옷 衣服'],'얼마':['','','얼마예요？ 多少钱','값 价格'],
+'깎다':['할인하다（打折）','','값을 깎다 砍价 · 깎아 주세요 请便宜点','싸다 便宜'],'길':['도로（道路）','','길을 묻다 问路','역 车站'],
+'묻다':['질문하다（提问）','대답하다 回答','길을 묻다 问路','찾다 找'],'찾다':['','잃어버리다 丢失','길을 찾다 找回路','묻다 问'],
+'왼쪽':['좌측（左侧）','오른쪽 右边','왼쪽으로 가세요 请向左走','오른쪽 右边'],'오른쪽':['우측（右侧）','왼쪽 左边','','왼쪽 左边'],
+'걸리다':['','','시간이 걸리다 花费时间','시간 时间'],'버스':['','','버스를 타다 坐公交','택시 出租车'],
+'택시':['','','택시를 타다 坐出租车','버스 公交'],'기차':['열차（列车）','','기차를 타다 坐火车','비행기 飞机'],
+'비행기':['','','비행기를 타다 坐飞机','기차 火车'],'앉다':['','서다 站立','의자에 앉다 坐在椅子上','서다 站立'],
+'조심하다':['주의하다（注意）','','조심하세요 请小心','위험하다 危险'],'갈아타다':['환승하다（换乘）','','지하철을 갈아타다 换乘地铁','내리다 下车'],
+'도착하다':['','출발하다 出发','역에 도착하다 到站','출발하다 出发'],'걷다':['','뛰다 跑','걸어서 가다 走着去','타다 乘坐'],
+'전화번호':['번호 号码','','전화번호를 알려 주세요 请告诉我号码','휴대전화 手机'],'괜찮다':['좋다 好','나쁘다 不好','괜찮아요 没关系','좋다 好'],
+'늦다':['','빠르다 快','늦으면 전화할게요 晚了就打电话','이르다 早'],'약속':['','','약속을 지키다 守约 · 약속 시간 约定时间','시간 时间'],
+'통화하다':['','','통화 중이에요 正在通话','전화하다 打电话'],'봄':['','가을 秋天','봄 날씨 春天的天气','여름 夏天'],
+'여름':['','겨울 冬天','여름 방학 暑假','겨울 冬天'],'가을':['','봄 春天','','봄 春天'],'겨울':['','여름 夏天','겨울 방학 寒假','여름 夏天'],
+'계절':['철 季节','','좋아하는 계절 喜欢的季节','봄 春天'],'덥다':['','춥다 冷','날씨가 덥다 天气热','춥다 冷'],
+'춥다':['','덥다 热','겨울에 춥다 冬天冷','덥다 热'],'따뜻하다':['','쌀쌀하다 凉飕飕','날씨가 따뜻하다 天气暖和','시원하다 凉爽'],
+'맑다':['','흐리다 阴','날씨가 맑다 天气晴朗','흐리다 阴'],'흐리다':['','맑다 晴','','맑다 晴'],
+'비':['','','비가 오다 下雨','눈 雪'],'눈':['','','눈이 오다 下雪','비 雨'],'바람':['','','바람이 불다 刮风','구름 云'],
+'꽃':['','','꽃이 예쁘다 花很漂亮','장미꽃 玫瑰花'],'등산':['','','등산을 하다 登山','수영 游泳'],'수영':['','','수영을 하다 游泳','등산 登山'],
+'방학':['휴가（休假）','개학 开学','방학에 여행하다 假期去旅行','휴일 节假日'],'여행':['관광（观光）','','여행을 가다 去旅行','방학 假期'],
+'주말':['','평일 工作日','주말에 쉬다 周末休息','휴일 节假日'],'찍다':['','','사진을 찍다 拍照','보다 看'],
+'배우다':['익히다（学到手）','가르치다 教','한국어를 배우다 学韩语','공부하다 学习'],'편하다':['편안하다（舒适）','어렵다 难','편하고 좋다 又方便又好','어렵다 难'],
+'어렵다':['','쉽다 简单','','편하다 方便'],'슬프다':['','기쁘다 开心','슬픈 영화 悲伤的电影','기쁘다 开心'],
+'인사하다':['인사드리다（问候，敬语）','','인사를 하다 打招呼','만나다 见面'],'만나다':['','헤어지다 分手、分别','친구를 만나다 见朋友','보다 看'],
+'먹다':['마시다 喝（液体）','굶다 挨饿','밥을 먹다 吃饭 · 약을 먹다 吃药','마시다 喝'],'보다':['','듣다 听','영화를 보다 看电影 · 사진을 보다 看照片','듣다 听'],
+'가다':['','오다 来','학교에 가다 去学校 · 집에 가다 回家','오다 来'],'오다':['','가다 去','집에 오다 到家 · 비가 오다 下雨','가다 去'],
+'사다':['구입하다（购买）','팔다 卖','선물을 사다 买礼物 · 옷을 사다 买衣服','팔다 卖'],'읽다':['','쓰다 写','책을 읽다 读书','듣다 听'],
+'듣다':['','보다 看','노래를 듣다 听歌','보다 看'],'자다':['','일어나다 起床','잠을 자다 睡觉','쉬다 休息'],
+'타다':['','내리다 下车','버스를 타다 坐公交 · 지하철을 타다 坐地铁','내리다 下车'],'내리다':['','타다 上车','버스에서 내리다 下公交车','타다 上车']
+};
+Object.keys(EXPAND).forEach(kr=>{
+  const v=V.find(x=>x[0]===kr); if(!v)return; const e=EXPAND[kr];
+  if(e[0])v[10]=e[0]; if(e[1])v[11]=e[1]; if(e[2])v[12]=e[2]; if(e[3])v[9]=e[3];
+});
+
+renderCats();renderSList();renderSentence();renderDialogues();renderVocab();renderProgress();renderGrammar();renderBankList();showBankQ(getBankQ('mix'));renderFlash();newQuiz();stats();if($('ttsModeSel'))$('ttsModeSel').value=ttsMode;
 
 </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a4b0325c5c62b5b8',t:'MTc5MjA4MTcwNA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body></html>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a4d94e921ffdba28',t:'MTc5MjUxMjc3Ng=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body></html>
